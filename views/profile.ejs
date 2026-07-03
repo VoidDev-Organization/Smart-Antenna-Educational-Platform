@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>My Profile — Smart Antenna</title>
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "dark" || stored === "light") {
+            document.documentElement.dataset.theme = stored;
+          } else if (
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+            document.documentElement.dataset.theme = "dark";
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Outfit:wght@400;600&family=Paytone+One&family=Pavanam&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/reset.css" />
+    <link rel="stylesheet" href="/assets/css/variables.css" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/profile.css" />
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true">
+      <div class="stars__layer stars__layer--1"></div>
+      <div class="stars__layer stars__layer--2"></div>
+      <div class="stars__layer stars__layer--3"></div>
+    </div>
+
+    <button
+      type="button"
+      class="theme-toggle"
+      id="themeToggle"
+      aria-label="Switch to dark mode"
+      aria-pressed="false"
+    >
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb">
+          <svg
+            class="theme-toggle__sun"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line
+              x1="12"
+              y1="1"
+              x2="12"
+              y2="3"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="12"
+              y1="21"
+              x2="12"
+              y2="23"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="4.22"
+              y1="4.22"
+              x2="5.64"
+              y2="5.64"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="18.36"
+              y1="18.36"
+              x2="19.78"
+              y2="19.78"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="1"
+              y1="12"
+              x2="3"
+              y2="12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="21"
+              y1="12"
+              x2="23"
+              y2="12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="4.22"
+              y1="19.78"
+              x2="5.64"
+              y2="18.36"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="18.36"
+              y1="5.64"
+              x2="19.78"
+              y2="4.22"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <svg
+            class="theme-toggle__moon"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </span>
+      </span>
+      <span class="theme-toggle__label">Light</span>
+    </button>
+
+    <div class="page">
+      <div class="background-decoration" aria-hidden="true">
+        <div class="bg-blur bg-blur--hero"></div>
+        <div class="bg-blur bg-blur--lower"></div>
+      </div>
+
+      <!-- Header + Top bar: HOME / COURSES / SETTINGS / LIVECHAT -->
+      <header class="site-header">
+        <nav class="profile-topbar" aria-label="Main navigation">
+          <div class="container profile-topbar__inner">
+            <a href="./index.html" class="profile-topbar__brand"
+              >Smart Antenna</a
+            >
+            <div class="profile-topbar__links">
+              <a href="./index.html">Home</a>
+              <a href="./profile.html#courses">Courses</a>
+              <a href="./profile.html#settings">Settings</a>
+              <a href="#" id="liveChatLink">Livechat</a>
+            </div>
+          </div>
+        </nav>
+      </header>
+
+      <main class="profile">
+        <div class="container">
+          <!-- Shown only if nobody is signed in -->
+          <div class="profile-guest" id="guestNotice" hidden>
+            <p class="profile-guest__text">
+              You need to sign in to view your profile.
+            </p>
+            <a class="btn btn--login" href="./login.html">Go to Sign In</a>
+          </div>
+
+          <!-- Signed-in dashboard -->
+          <div id="profileContent" hidden>
+            <a class="profile-back" href="/">
+              <img
+                src="/assets/images/icons/ic-sharp-navigate-next.svg"
+                alt=""
+              />
+              Back to home
+            </a>
+
+            <div class="profile__grid">
+              <div class="profile__main">
+                <!-- User information card -->
+                <section
+                  class="profile-card profile-identity"
+                  aria-label="User information"
+                >
+                  <img
+                    class="profile-identity__avatar"
+                    id="avatarImg"
+                    src="/assets/images/icons/default-avatar.svg"
+                    alt="Profile picture"
+                  />
+                  <div class="profile-identity__body">
+                    <div class="profile-identity__eyebrow">
+                      User information
+                    </div>
+                    <div class="profile-identity__name" id="userName">—</div>
+                    <div class="profile-identity__email" id="userEmail">—</div>
+                    <div class="profile-identity__joined" id="userJoined">
+                      —
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Progress overview -->
+                <section
+                  class="profile-card"
+                  id="settings"
+                  aria-label="Learning progress"
+                >
+                  <div class="profile-stats">
+                    <div class="progress-stat">
+                      <div class="progress-stat__row">
+                        <span class="progress-stat__title"
+                          >Overall progress</span
+                        >
+                        <span class="progress-stat__value">98%</span>
+                      </div>
+                      <div class="progress-stat__track">
+                        <div
+                          class="progress-stat__fill"
+                          style="width: 98%"
+                        ></div>
+                      </div>
+                      <p class="progress-stat__desc">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Nunc vulputate libero
+                      </p>
+                    </div>
+                    <div class="progress-stat">
+                      <div class="progress-stat__row">
+                        <span class="progress-stat__title"
+                          >Lorem ipsum dolor</span
+                        >
+                        <span class="progress-stat__value">50%</span>
+                      </div>
+                      <div class="progress-stat__track">
+                        <div
+                          class="progress-stat__fill"
+                          style="width: 50%"
+                        ></div>
+                      </div>
+                      <p class="progress-stat__desc">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Nunc vulputate libero
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- Courses -->
+                <section class="profile-card" id="courses" aria-label="Courses">
+                  <h2 class="profile-courses__heading">Last · Online course</h2>
+
+                  <div class="course-row">
+                    <div class="course-row__badge">98%</div>
+                    <div class="course-row__body">
+                      <div class="course-row__title">Lorem ipsum dolor</div>
+                      <div class="course-row__desc">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="course-row">
+                    <div class="course-row__badge">50%</div>
+                    <div class="course-row__body">
+                      <div class="course-row__title">Lorem ipsum dolor</div>
+                      <div class="course-row__desc">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <!-- Sidebar -->
+              <aside class="profile__side">
+                <section class="profile-card" aria-label="Recent activity">
+                  <h2 class="profile-activity__heading">Join history</h2>
+                  <ul class="profile-activity__list" id="activityList">
+                    <li class="profile-activity__empty">No activity yet.</li>
+                  </ul>
+                </section>
+
+                <button type="button" class="btn btn--logout" id="logoutBtn">
+                  LOGOUT
+                </button>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="site-footer" role="contentinfo">
+        <div class="container site-footer__container">
+          <h3 class="site-footer__heading">Smart Antenna</h3>
+          <p class="site-footer__tagline">Learn. Build. Ship.</p>
+
+          <div class="site-footer__meta">
+            <nav class="site-footer__social-links" aria-label="Social media">
+              <a
+                class="site-footer__social-icon-link"
+                href="#"
+                aria-label="Follow us on Instagram"
+              >
+                <img
+                  class="site-footer__social-icon"
+                  src="/assets/images/icons/icon-instagram.png"
+                  alt=""
+                />
+              </a>
+              <a
+                class="site-footer__social-icon-link"
+                href="#"
+                aria-label="Follow us on LinkedIn"
+              >
+                <img
+                  class="site-footer__social-icon"
+                  src="/assets/images/icons/icon-linkedin.png"
+                  alt=""
+                />
+              </a>
+              <a
+                class="site-footer__social-icon-link"
+                href="#"
+                aria-label="Follow us on Facebook"
+              >
+                <img
+                  class="site-footer__social-icon"
+                  src="/assets/images/icons/icon-facebook.png"
+                  alt=""
+                />
+              </a>
+            </nav>
+
+            <div class="site-footer__legal-links">
+              <a href="#" class="site-footer__link">Terms &amp; Conditions</a>
+              <a href="#" class="site-footer__link">Privacy Policy</a>
+            </div>
+          </div>
+
+          <div class="site-footer__bottom">
+            &copy; <span id="year"></span> Smart Antenna
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="/assets/js/main.js"></script>
+    <script>
+      (function () {
+        function getCurrentUserRecord() {
+          var currentUser = null;
+          try {
+            currentUser = localStorage.getItem("currentUser");
+          } catch (e) {}
+          if (!currentUser) return null;
+
+          // Signed up on this device: full record stored under user_<username>
+          try {
+            var direct = localStorage.getItem("user_" + currentUser);
+            if (direct) return JSON.parse(direct);
+          } catch (e) {}
+
+          // Signed in with email only: search stored users for a match
+          try {
+            for (var i = 0; i < localStorage.length; i++) {
+              var key = localStorage.key(i);
+              if (key && key.indexOf("user_") === 0) {
+                var record = JSON.parse(localStorage.getItem(key));
+                if (record && record.email === currentUser) return record;
+              }
+            }
+          } catch (e) {}
+
+          // No stored record — build a minimal one from the email itself
+          return { email: currentUser };
+        }
+
+        var record = getCurrentUserRecord();
+        var guestNotice = document.getElementById("guestNotice");
+        var content = document.getElementById("profileContent");
+
+        if (!record) {
+          guestNotice.hidden = false;
+          return;
+        }
+
+        content.hidden = false;
+
+        var fullName =
+          [record.firstName, record.lastName].filter(Boolean).join(" ") ||
+          record.username ||
+          "Member";
+        var email = record.email || "—";
+        var joined = record.joinedAt ? new Date(record.joinedAt) : null;
+
+        document.getElementById("userName").textContent = fullName;
+        document.getElementById("userEmail").textContent = email;
+        document.getElementById("userJoined").textContent = joined
+          ? "Joined " +
+            joined.toLocaleDateString(undefined, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "Join date unavailable";
+
+        // Avatar uses the local default image (assets/images/icons/default-avatar.svg,
+        // already set in the HTML) — no external network request needed.
+
+        // Join-history / activity list
+        var activityList = document.getElementById("activityList");
+        var items = [];
+        if (joined) {
+          items.push("Created account on " + joined.toLocaleDateString());
+        }
+        items.push("Signed in on " + new Date().toLocaleDateString());
+        if (items.length) {
+          activityList.innerHTML = items
+            .map(function (text) {
+              return (
+                '<li class="profile-activity__item"><span class="profile-activity__dot"></span>' +
+                text +
+                "</li>"
+              );
+            })
+            .join("");
+        }
+
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", function () {
+            try {
+              localStorage.removeItem("currentUser");
+            } catch (e) {}
+            window.location.href = "./login.html";
+          });
+
+        document
+          .getElementById("liveChatLink")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            alert("Livechat is coming soon!");
+          });
+      })();
+    </script>
+    <script>
+      // Footer year
+      try {
+        var yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+      } catch (e) {}
+    </script>
+  </body>
+</html>

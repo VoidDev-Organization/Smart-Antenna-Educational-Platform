@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Login — Smart Antenna</title>
+
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          if (stored === "dark" || stored === "light") {
+            document.documentElement.dataset.theme = stored;
+          } else if (
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+            document.documentElement.dataset.theme = "dark";
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Outfit:wght@400;600&family=Paytone+One&family=Pavanam&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/assets/css/reset.css" />
+    <link rel="stylesheet" href="/assets/css/variables.css" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/auth.css" />
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true">
+      <div class="stars__layer stars__layer--1"></div>
+      <div class="stars__layer stars__layer--2"></div>
+      <div class="stars__layer stars__layer--3"></div>
+    </div>
+
+    <button
+      type="button"
+      class="theme-toggle"
+      id="themeToggle"
+      aria-label="Switch to dark mode"
+      aria-pressed="false"
+    >
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb">
+          <svg
+            class="theme-toggle__sun"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line
+              x1="12"
+              y1="1"
+              x2="12"
+              y2="3"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="12"
+              y1="21"
+              x2="12"
+              y2="23"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="4.22"
+              y1="4.22"
+              x2="5.64"
+              y2="5.64"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="18.36"
+              y1="18.36"
+              x2="19.78"
+              y2="19.78"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="1"
+              y1="12"
+              x2="3"
+              y2="12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="21"
+              y1="12"
+              x2="23"
+              y2="12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="4.22"
+              y1="19.78"
+              x2="5.64"
+              y2="18.36"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <line
+              x1="18.36"
+              y1="5.64"
+              x2="19.78"
+              y2="4.22"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <svg
+            class="theme-toggle__moon"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </span>
+      </span>
+      <span class="theme-toggle__label">Light</span>
+    </button>
+
+    <div class="page">
+      <div class="background-decoration" aria-hidden="true">
+        <div class="bg-blur bg-blur--hero"></div>
+        <div class="bg-blur bg-blur--lower"></div>
+        <div class="bg-gradient bg-gradient--hero-right"></div>
+        <div class="bg-gradient bg-gradient--hero-left"></div>
+      </div>
+
+      <nav class="auth-nav">
+        <div class="container auth-nav__inner">
+          <a href="/" class="auth-nav__logo">Smart Antenna</a>
+          <div class="auth-nav__links">
+            <a href="/">Home</a>
+            <a href="/login" class="is-active">Login</a>
+            <a href="/signup">Sign Up</a>
+          </div>
+        </div>
+      </nav>
+
+      <section class="auth">
+        <div class="container auth__container">
+          <div class="auth__intro">
+            <h1 class="auth__title">Lorem ipsum</h1>
+            <h1 class="auth__title auth__title--muted">Lorem ipsum</h1>
+            <p class="auth__description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+              vulputate libero
+            </p>
+          </div>
+
+          <form class="auth__card" id="loginForm" novalidate>
+            <div class="auth__field">
+              <label class="auth__label" for="email">Email</label>
+              <input
+                class="auth__input"
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                required
+              />
+            </div>
+
+            <div class="auth__field">
+              <label class="auth__label" for="password">Password</label>
+              <input
+                class="auth__input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter password"
+                required
+              />
+            </div>
+
+            <div class="auth__meta-row">
+              <label class="auth__remember">
+                <input type="checkbox" id="rememberMe" name="rememberMe" />
+                Remember me
+              </label>
+              <a class="auth__link" href="#">Forgot password?</a>
+            </div>
+
+            <p class="auth__error" id="formError" role="alert"></p>
+
+            <button type="submit" class="btn btn--login auth__submit">
+              Login
+            </button>
+
+            <p class="auth__switch">
+              Don't have an account?
+              <a class="auth__link" href="/signup">Sign up</a>
+            </p>
+          </form>
+        </div>
+      </section>
+    </div>
+    <footer class="site-footer" role="contentinfo">
+      <div class="container site-footer__container">
+        <h3 class="site-footer__heading">Smart Antenna</h3>
+        <p class="site-footer__tagline">Learn. Build. Ship.</p>
+
+        <div class="site-footer__meta">
+          <nav class="site-footer__social-links" aria-label="Social media">
+            <a
+              class="site-footer__social-icon-link"
+              href="#"
+              aria-label="Follow us on Instagram"
+            >
+              <img
+                class="site-footer__social-icon"
+                src="/assets/images/icons/icon-instagram.png"
+                alt=""
+              />
+            </a>
+            <a
+              class="site-footer__social-icon-link"
+              href="#"
+              aria-label="Follow us on LinkedIn"
+            >
+              <img
+                class="site-footer__social-icon"
+                src="/assets/images/icons/icon-linkedin.png"
+                alt=""
+              />
+            </a>
+            <a
+              class="site-footer__social-icon-link"
+              href="#"
+              aria-label="Follow us on Facebook"
+            >
+              <img
+                class="site-footer__social-icon"
+                src="/assets/images/icons/icon-facebook.png"
+                alt=""
+              />
+            </a>
+          </nav>
+
+          <div class="site-footer__legal-links">
+            <a href="#" class="site-footer__link">Terms &amp; Conditions</a>
+            <a href="#" class="site-footer__link">Privacy Policy</a>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          &copy; <span id="year">2026</span> Smart Antenna
+        </div>
+      </div>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          var errorEl = document.getElementById("formError");
+          var email = document.getElementById("email").value.trim();
+          var password = document.getElementById("password").value;
+          var rememberMe = document.getElementById("rememberMe").checked;
+
+          if (!email || !password) {
+            errorEl.textContent = "Please enter your email and password.";
+            return;
+          }
+          if (!/^\S+@\S+\.\S+$/.test(email)) {
+            errorEl.textContent = "Please enter a valid email address.";
+            return;
+          }
+
+          var foundUser = null;
+          try {
+            for (var i = 0; i < localStorage.length; i++) {
+              var key = localStorage.key(i);
+              if (key && key.indexOf("user_") === 0) {
+                var record = JSON.parse(localStorage.getItem(key));
+                if (record && record.email === email) {
+                  foundUser = record;
+                  break;
+                }
+              }
+            }
+          } catch (err) {
+            foundUser = null;
+          }
+
+          if (!foundUser) {
+            errorEl.textContent = "No account found with that email.";
+            return;
+          }
+          if (foundUser.password !== password) {
+            errorEl.textContent = "Incorrect password.";
+            return;
+          }
+
+          try {
+            if (rememberMe) localStorage.setItem("rememberMe", email);
+            localStorage.setItem("currentUser", email);
+          } catch (err) {}
+
+          window.location.href = "/profile";
+        });
+    </script>
+  </body>
+</html>

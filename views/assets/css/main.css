@@ -1,0 +1,1217 @@
+/* =========================================================
+   Page shell
+   ========================================================= */
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: visible;
+  background: var(--color-bg);
+  color: var(--color-text-body);
+  transition: var(--theme-transition);
+}
+
+.page {
+  background: transparent; /* lets html/body dark bg show — .page's own bg was blocking it */
+  position: relative;
+  isolation: isolate;
+  transition: var(--theme-transition);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page > main {
+  flex: 1 0 auto;
+}
+
+/* .page needs an explicit background only in light mode because the
+   decorative blobs (z-index -1 inside isolation) sit above body.
+   In dark mode body bg itself is the canvas — no duplication needed. */
+:root:not([data-theme="dark"]) .page {
+  background: var(--color-bg);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  position: relative;
+}
+
+/* =========================================================
+   Background decoration
+   Ambient blurred / gradient blobs, hidden from assistive
+   tech, sit behind all content. Sizes/positions are fluid
+   (vw-based + clamp) so they scale with the viewport instead
+   of needing a value per breakpoint.
+   ========================================================= */
+.background-decoration {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-blur {
+  background: var(--color-primary);
+  border-radius: 50%;
+  position: absolute;
+  opacity: 0.55;
+}
+
+.bg-blur--hero {
+  width: clamp(500px, 70vw, 1262px);
+  aspect-ratio: 1;
+  left: 6vw;
+  top: 28%;
+  filter: blur(clamp(140px, 22vw, 350px));
+}
+
+.bg-blur--lower {
+  /* Reduce the maximum size and lower the blob so it doesn't form a visible arc
+     that intrudes into the footer area. Lower opacity and blur for subtlety. */
+  width: clamp(500px, 85vw, 1200px);
+  aspect-ratio: 1;
+  left: -6vw;
+  top: 72%;
+  opacity: 0.45;
+  filter: blur(clamp(140px, 18vw, 320px));
+}
+
+.bg-gradient {
+  border-radius: 50%;
+  position: absolute;
+}
+
+.bg-gradient--hero-right {
+  background: var(--gradient-glow-blue);
+  width: clamp(280px, 36vw, 640px);
+  aspect-ratio: 1;
+  right: -6vw;
+  top: 4%;
+}
+
+.bg-gradient--hero-left {
+  background: var(--gradient-glow-blue);
+  width: clamp(280px, 36vw, 640px);
+  aspect-ratio: 1;
+  left: -14vw;
+  top: 5%;
+}
+
+.bg-gradient--features-right {
+  background: var(--gradient-glow-violet);
+  width: clamp(380px, 50vw, 927px);
+  aspect-ratio: 1;
+  right: -20vw;
+  top: 42%;
+}
+
+.bg-gradient--features-left {
+  background: var(--gradient-glow-violet);
+  width: clamp(380px, 50vw, 927px);
+  aspect-ratio: 1;
+  left: -28vw;
+  top: 42%;
+}
+
+.bg-gradient--cta-right {
+  background: var(--gradient-glow-violet);
+  width: clamp(280px, 36vw, 640px);
+  aspect-ratio: 1;
+  right: -10vw;
+  bottom: 4%;
+}
+
+.bg-gradient--cta-left {
+  background: var(--gradient-glow-violet);
+  width: clamp(220px, 32vw, 520px);
+  aspect-ratio: 1;
+  left: -8vw;
+  bottom: 6%;
+  opacity: 0.85;
+}
+
+/* Slow ambient drift — subtle, never the focal point */
+@media (prefers-reduced-motion: no-preference) {
+  .bg-blur,
+  .bg-gradient {
+    animation: drift 22s ease-in-out infinite alternate;
+  }
+  .bg-blur--lower,
+  .bg-gradient--hero-left,
+  .bg-gradient--features-left,
+  .bg-gradient--cta-left {
+    animation-duration: 26s;
+    animation-direction: alternate-reverse;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(2.5%, -2.5%) scale(1.04);
+  }
+}
+
+/* =========================================================
+   Scroll-reveal utility
+   JS toggles .is-visible when a .reveal element enters the
+   viewport. Falls back to fully visible if JS doesn't run,
+   and is fully disabled under reduced motion.
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal--stagger > * {
+  transition-delay: calc(var(--reveal-index, 0) * 90ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================================
+   Buttons (shared)
+   ========================================================= */
+.btn {
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: var(--fs-button);
+  font-weight: 600;
+  text-align: center;
+  box-shadow: var(--shadow-button);
+  transition: transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+  min-height: 48px; /* comfortable tap target on touch devices */
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: var(--shadow-button-hover);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.btn--login {
+  background: var(--color-cta-bg);
+  color: var(--color-text-on-accent);
+}
+
+.btn--signup {
+  background: var(--color-overlay-light);
+  color: var(--color-accent);
+}
+
+/* Ripple feedback on click — JS toggles .is-rippling, which restarts
+   the keyframe via animation. Purely additive to the existing
+   hover/active transform, never blocks the click itself. */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--ripple-x, 50%) var(--ripple-y, 50%),
+    var(--ripple-overlay) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn.is-rippling::after {
+    animation: ripple 0.6s var(--ease-out);
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity: 1;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+/* =========================================================
+   Media frame
+   Shared "card" treatment for every content image: rounded
+   corners, soft shadow, hover lift, and — since every image in
+   this project is currently a placeholder — a brand-tinted wash
+   plus a small glyph so it reads as an intentional placeholder
+   rather than a missing/broken asset.
+   ========================================================= */
+.media-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  background: var(--media-frame-bg);
+  transition: transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out), var(--theme-transition);
+}
+
+.media-frame:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+}
+
+.media-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+}
+
+/* Brand-tinted wash over the placeholder art, applied with
+   soft-light so it tints without fully hiding the source image. */
+.media-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--media-frame-wash);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Centered placeholder glyph, signals "image goes here" rather
+   than "image failed to load". */
+.media-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18%;
+  aspect-ratio: 1;
+  max-width: 56px;
+  max-height: 56px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c6088' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='3'/%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'/%3E%3Cpath d='M21 15l-5-5L5 21'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.3;
+  filter: var(--media-frame-icon-filter);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* =========================================================
+   Scroll progress bar
+   A 3px line that fills left-to-right with read progress.
+   Purely a positioning indicator, not interactive.
+   ========================================================= */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--color-accent);
+  z-index: 70;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-progress {
+    transition: width 0.1s linear;
+  }
+}
+
+/* =========================================================
+   Sticky CTA bar
+   Mirrors the hero's sign-up/login buttons so they stay reachable
+   once the hero has scrolled out of view — appears/disappears
+   based on hero visibility (assets/js/main.js).
+   ========================================================= */
+.sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: var(--color-glass-bg);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid var(--color-glass-border);
+  padding-block: var(--space-xs);
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out), var(--theme-transition);
+}
+
+.sticky-bar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-bar {
+    transition: opacity var(--duration-fast) linear;
+  }
+}
+
+.sticky-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}
+
+.btn--sm {
+  padding: 8px 22px;
+  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1rem);
+  min-height: 40px;
+}
+
+/* =========================================================
+   Back-to-top
+   Appears once the page has scrolled roughly a viewport height.
+   ========================================================= */
+.back-to-top {
+  position: fixed;
+  right: clamp(16px, 4vw, 32px);
+  bottom: clamp(16px, 4vw, 32px);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cta-bg);
+  color: var(--color-text-on-accent);
+  box-shadow: var(--shadow-card);
+  z-index: 55;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top:hover {
+  background: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.back-to-top svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* =========================================================
+   Hero
+   ========================================================= */
+.hero {
+  padding-block: var(--space-2xl) var(--space-xl);
+}
+
+.hero__container {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.hero__title {
+  color: var(--color-text-heading);
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--fs-hero-title);
+  line-height: 1.2;
+  font-weight: 400;
+}
+
+.hero__description {
+  color: var(--color-text-body);
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-weight: 400;
+  margin-top: var(--space-sm);
+  max-width: 36em;
+}
+
+.hero__cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-md);
+}
+
+.hero__visual {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  aspect-ratio: 680 / 780;
+  margin-inline: auto;
+}
+
+.hero__visual-inner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.hero__visual-inner .media-frame {
+  position: absolute;
+}
+
+.hero__image {
+  left: 36.6%;
+  top: 30.8%;
+  width: 61.8%;
+  height: 46.3%;
+}
+
+.hero__decoration--top {
+  left: 20%;
+  top: 0;
+  width: 58.5%;
+  height: 41.5%;
+}
+
+.hero__decoration--bottom {
+  left: 0;
+  top: 68.3%;
+  width: 44.1%;
+  height: 31.3%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__title,
+  .hero__description,
+  .hero__cta-group,
+  .hero__visual {
+    opacity: 0;
+    animation: fadeInUp var(--duration-slow) var(--ease-out) forwards;
+  }
+  .hero__title {
+    animation-delay: 0.05s;
+  }
+  .hero__description {
+    animation-delay: 0.18s;
+  }
+  .hero__cta-group {
+    animation-delay: 0.3s;
+  }
+  .hero__visual {
+    animation-delay: 0.2s;
+    animation-name: fadeInScale;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================================================
+   Feature A — two images flanking a centered text column
+   ========================================================= */
+.feature-a__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding-block: var(--space-lg);
+}
+
+.feature-a__image {
+  width: 100%;
+  max-width: 334px;
+  aspect-ratio: 334 / 450;
+  flex: 1 1 240px;
+}
+
+.feature-a__content {
+  flex: 1 1 380px;
+  max-width: 531px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.feature-a__heading-1,
+.feature-a__heading-2 {
+  color: var(--color-text-heading);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-section-title);
+  line-height: 1.25;
+  font-weight: 400;
+}
+
+.feature-a__body {
+  color: var(--color-text-body);
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* =========================================================
+   Feature B — single image with left-aligned heading
+   ========================================================= */
+.feature-b__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: var(--space-lg);
+}
+
+.feature-b__heading {
+  color: var(--color-text-heading);
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--fs-section-title);
+  line-height: 1.25;
+  font-weight: 400;
+  flex: 1 1 0%;
+  min-width: 280px;
+  max-width: 531px;
+}
+
+.feature-b__image {
+  width: 100%;
+  max-width: 334px;
+  aspect-ratio: 334 / 450;
+  flex: 1 1 0%;
+  min-width: 200px;
+}
+
+/* =========================================================
+   Feature C — wide banner image with heading above
+   ========================================================= */
+.feature-c__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding-block: var(--space-lg);
+}
+
+.feature-c__heading {
+  color: var(--color-text-heading);
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: var(--fs-section-title);
+  line-height: 1.25;
+  font-weight: 400;
+  max-width: 531px;
+  align-self: center;
+  text-align: center;
+}
+
+.feature-c__image {
+  width: 100%;
+  max-width: 812px;
+  aspect-ratio: 812 / 318;
+  margin-inline: auto;
+}
+
+.feature-c__image:hover {
+  transform: scale(1.012);
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.site-footer {
+  position: relative;
+  margin-top: auto;
+  background: var(--color-glass-bg);
+  border-top: 1px solid var(--color-glass-border);
+  color: var(--color-text-body);
+  padding-block: 1.25rem;
+  backdrop-filter: blur(14px);
+}
+
+:root[data-theme="dark"] .site-footer {
+  background: var(--color-glass-bg);
+  border-top-color: var(--color-glass-border);
+}
+
+.site-footer__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  max-width: var(--container-width);
+  margin-inline: auto;
+}
+
+.site-footer__heading {
+  color: var(--color-text-heading);
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.site-footer__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.site-footer__social-links {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.site-footer__social-icon-link {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  transition: transform var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.site-footer__social-icon-link:hover {
+  transform: translateY(-2px);
+  opacity: 0.78;
+}
+
+.site-footer__social-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(0.85);
+}
+
+:root[data-theme="dark"] .site-footer__social-icon {
+  filter: grayscale(100%) brightness(1.2);
+}
+
+.site-footer__legal-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.site-footer__link {
+  color: var(--color-text-body);
+  text-align: center;
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  letter-spacing: 0;
+  font-weight: 500;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.site-footer__link:hover {
+  color: var(--color-accent);
+}
+
+.site-footer__bottom {
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+  width: 100%;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+:root[data-theme="dark"] .site-footer__bottom {
+  color: var(--color-text-body);
+}
+
+/* =========================================================
+   Responsive breakpoints
+   ========================================================= */
+
+/* Laptop / iPad landscape */
+@media (max-width: 1024px) {
+  .site-footer__container {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .site-footer__meta {
+    align-items: center;
+  }
+
+  .site-footer__legal-links {
+    justify-content: center;
+  }
+
+  .hero__container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero__title,
+  .hero__description {
+    text-align: center;
+    margin-inline: auto;
+  }
+  .hero__cta-group {
+    justify-content: center;
+  }
+  .hero__visual {
+    order: -1;
+    max-width: min(540px, 100%);
+    aspect-ratio: 4 / 4.5;
+  }
+
+  .feature-a__container {
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+  .feature-a__content {
+    order: 1;
+    flex-basis: 100%;
+  }
+
+  .feature-b__container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .feature-b__heading {
+    text-align: center;
+    margin-inline: auto;
+  }
+}
+
+/* iPad portrait / large phones */
+@media (max-width: 768px) {
+  :root {
+    --container-padding: clamp(20px, 6vw, 40px);
+  }
+
+  .hero {
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+  .hero__visual {
+    max-width: min(430px, 100%);
+  }
+
+  .feature-a__image,
+  .feature-b__image {
+    max-width: min(260px, 80vw);
+  }
+
+  .feature-c__heading {
+    align-self: center;
+  }
+
+  .site-footer__container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .site-footer__heading {
+    text-align: center;
+    margin-inline: auto;
+  }
+  .site-footer__meta {
+    align-items: center;
+  }
+
+  .sticky-bar {
+    padding-top: calc(var(--space-sm) + 56px);
+    padding-bottom: 10px;
+  }
+  .sticky-bar__inner {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Trim the two largest, most expensive ambient blurs out of
+     the smaller viewport — keeps things calmer and lighter. */
+  .bg-blur--lower {
+    opacity: 0.7;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .hero {
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+
+  .hero__title {
+    font-size: clamp(2rem, 7.2vw, 2.6rem);
+  }
+
+  .hero__cta-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero__cta-group .btn {
+    width: 100%;
+  }
+
+  .feature-a__image,
+  .feature-b__image {
+    max-width: 220px;
+  }
+
+  .site-footer__legal-links {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .sticky-bar {
+    padding-top: calc(var(--space-sm) + 54px);
+  }
+  .sticky-bar__inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sticky-bar__inner .btn--sm {
+    width: 100%;
+    max-width: 220px;
+    margin-inline: auto;
+  }
+}
+
+/* =========================================================
+   Theme toggle button
+   A pill-shaped sun/moon switcher that lives in the top-right
+   corner. Positioned after the scroll-progress bar (z-index 70)
+   and above the sticky bar (z-index 60) so it's always reachable.
+   ========================================================= */
+.theme-toggle {
+  position: fixed;
+  top: clamp(12px, 2.5vw, 20px);
+  right: clamp(16px, 4vw, 32px);
+  z-index: 75;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 100px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: var(--shadow-button);
+  color: var(--color-text-heading);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  user-select: none;
+  transition: transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    var(--theme-transition);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-button-hover);
+}
+
+.theme-toggle:active {
+  transform: scale(0.96);
+}
+
+/* The animated pill track + sliding circle */
+.theme-toggle__track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 100px;
+  background: var(--color-overlay-dark);
+  border: 1px solid var(--color-glass-border);
+  transition: background var(--duration-base) ease, var(--theme-transition);
+  flex-shrink: 0;
+}
+
+:root[data-theme="dark"] .theme-toggle__track {
+  background: var(--color-cta-bg);
+  border-color: var(--color-glass-border);
+}
+
+.theme-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-glass-bg);
+  box-shadow: var(--shadow-button);
+  transition: transform var(--duration-base) var(--ease-out),
+    background var(--duration-base) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root[data-theme="dark"] .theme-toggle__thumb {
+  transform: translateX(16px);
+  background: var(--color-accent);
+}
+
+/* The icon inside the thumb */
+.theme-toggle__thumb svg {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  transition: opacity var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.theme-toggle__sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  color: var(--color-accent);
+}
+
+.theme-toggle__moon {
+  opacity: 0;
+  transform: rotate(-45deg) scale(0.5);
+  color: var(--color-text-on-accent);
+}
+
+:root[data-theme="dark"] .theme-toggle__sun {
+  opacity: 0;
+  transform: rotate(45deg) scale(0.5);
+}
+
+:root[data-theme="dark"] .theme-toggle__moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Label that flips between "Light" and "Dark" */
+.theme-toggle__label {
+  color: var(--color-text-body);
+  transition: var(--theme-transition);
+  min-width: 2.8em;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px 6px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle {
+    left: 12px;
+    right: auto;
+    top: 12px;
+    padding: 6px 10px;
+  }
+}
+
+/* =========================================================
+   Dark-mode component crossfades
+   Only the properties that actually change between themes
+   get transitions — keeps it snappy without fighting transforms.
+   ========================================================= */
+.hero__title,
+.hero__description,
+.feature-a__heading-1,
+.feature-a__heading-2,
+.feature-a__body,
+.feature-b__heading,
+.feature-c__heading,
+.site-footer__heading,
+.site-footer__link {
+  transition: var(--theme-transition);
+}
+
+.site-footer {
+  transition: var(--theme-transition);
+}
+
+.back-to-top {
+  transition: opacity var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    var(--theme-transition);
+}
+
+.scroll-progress {
+  transition: width 0.1s linear, background-color 0.4s ease;
+}
+
+/* Star-field: appears in dark mode only, sits below all content.
+   Pure CSS — no canvas, no JS. The animation-delay offsets make each
+   individual "star" (a tiny box-shadow dot) twinkle at a different
+   time so they feel independent rather than blinking in sync. */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+
+:root[data-theme="dark"] .stars {
+  opacity: 1;
+}
+
+.stars__layer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+.stars__layer--1 {
+  box-shadow:
+    12px  80px 0 0.5px rgba(255,255,255,0.9),
+    88px 140px 0 0.5px rgba(255,255,255,0.7),
+   230px  22px 0 1px   rgba(255,255,255,0.85),
+   410px  65px 0 0.5px rgba(255,255,255,0.8),
+   560px 190px 0 1px   rgba(255,255,255,0.9),
+   640px  38px 0 0.5px rgba(255,255,255,0.7),
+   780px 110px 0 0.5px rgba(255,255,255,0.75),
+   920px  55px 0 1px   rgba(255,255,255,0.85),
+  1050px 180px 0 0.5px rgba(255,255,255,0.8),
+  1200px  30px 0 1px   rgba(255,255,255,0.9),
+  1320px 130px 0 0.5px rgba(255,255,255,0.7),
+   155px 310px 0 0.5px rgba(255,255,255,0.8),
+   340px 280px 0 1px   rgba(255,255,255,0.85),
+   500px 350px 0 0.5px rgba(255,255,255,0.75),
+   700px 300px 0 0.5px rgba(255,255,255,0.9),
+   870px 380px 0 1px   rgba(255,255,255,0.8),
+  1100px 260px 0 0.5px rgba(255,255,255,0.7),
+  1380px 340px 0 0.5px rgba(255,255,255,0.85);
+  animation-delay: 0s;
+  animation-duration: 3.8s;
+}
+
+.stars__layer--2 {
+  box-shadow:
+    50px  500px 0 0.5px rgba(255,255,255,0.7),
+   170px  430px 0 1px   rgba(255,255,255,0.85),
+   300px  560px 0 0.5px rgba(255,255,255,0.9),
+   480px  480px 0 1px   rgba(255,255,255,0.75),
+   620px  600px 0 0.5px rgba(255,255,255,0.8),
+   800px  520px 0 0.5px rgba(255,255,255,0.7),
+   990px  580px 0 1px   rgba(255,255,255,0.85),
+  1140px  450px 0 0.5px rgba(255,255,255,0.9),
+  1280px  630px 0 0.5px rgba(255,255,255,0.8),
+    90px  720px 0 1px   rgba(255,255,255,0.7),
+   260px  690px 0 0.5px rgba(255,255,255,0.85),
+   430px  780px 0 0.5px rgba(255,255,255,0.75),
+   590px  740px 0 1px   rgba(255,255,255,0.9),
+   760px  810px 0 0.5px rgba(255,255,255,0.8),
+   940px  670px 0 0.5px rgba(255,255,255,0.7),
+  1060px  760px 0 1px   rgba(255,255,255,0.85),
+  1220px  820px 0 0.5px rgba(255,255,255,0.9),
+  1390px  700px 0 0.5px rgba(255,255,255,0.75);
+  animation-delay: -1.4s;
+  animation-duration: 5.2s;
+}
+
+.stars__layer--3 {
+  box-shadow:
+    30px  920px 0 0.5px rgba(255,255,255,0.8),
+   190px  990px 0 1px   rgba(255,255,255,0.7),
+   380px  880px 0 0.5px rgba(255,255,255,0.85),
+   540px  960px 0 1px   rgba(255,255,255,0.9),
+   720px  850px 0 0.5px rgba(255,255,255,0.75),
+   900px  930px 0 0.5px rgba(255,255,255,0.8),
+  1080px  870px 0 1px   rgba(255,255,255,0.7),
+  1250px  980px 0 0.5px rgba(255,255,255,0.85),
+   130px 1100px 0 0.5px rgba(255,255,255,0.9),
+   310px 1060px 0 1px   rgba(255,255,255,0.75),
+   490px 1140px 0 0.5px rgba(255,255,255,0.8),
+   660px 1080px 0 0.5px rgba(255,255,255,0.7),
+   840px 1150px 0 1px   rgba(255,255,255,0.85),
+  1020px 1010px 0 0.5px rgba(255,255,255,0.9),
+  1190px 1120px 0 0.5px rgba(255,255,255,0.8),
+  1360px 1050px 0 1px   rgba(255,255,255,0.75),
+    70px 1200px 0 0.5px rgba(255,255,255,0.7),
+   450px 1280px 0 0.5px rgba(255,255,255,0.85);
+  animation-delay: -2.6s;
+  animation-duration: 4.5s;
+}
+
+@keyframes twinkle {
+  0%   { opacity: 0.4; }
+  100% { opacity: 1;   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars__layer { animation: none; }
+  .theme-toggle__thumb,
+  .theme-toggle__track,
+  .theme-toggle__sun,
+  .theme-toggle__moon { transition: none; }
+}

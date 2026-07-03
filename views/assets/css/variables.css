@@ -1,0 +1,166 @@
+/* =========================================================
+   Design Tokens
+   Central source of truth for colors, type, spacing,
+   motion and breakpoints. Update values here rather than
+   in component styles.
+   ========================================================= */
+:root {
+  /* Color: surface */
+  --color-bg: #F8FAFC;
+
+  /* Color: brand (blue & white) */
+  --color-primary: #2563EB; /* Primary Color Blue */
+  --color-primary-hover: #1D4ED8; /* Primary Hover Dark Blue */
+  --color-accent: #93C5FD;
+
+  /* Color: text */
+  --color-text-heading: #1F2937; /* Text Dark Gray */
+  --color-text-body: #6B7280; /* Secondary Text Gray */
+  --color-text-on-accent: #ffffff;
+
+  /* Color: surfaces & overlays */
+  --color-overlay-light: rgba(255, 255, 255, 0.98);
+  --color-overlay-dark: rgba(15, 23, 42, 0.03);
+  --color-cta-bg: rgba(37, 99, 235, 0.14); /* uses primary */
+  --color-glass-bg: #FFFFFF; /* Cards White */
+  --color-glass-border: rgba(37, 99, 235, 0.06);
+
+  /* Gradients (decorative background blobs) */
+  --gradient-glow-blue: linear-gradient(
+    180deg,
+    rgba(37, 99, 235, 0.12) 8%,
+    rgba(37, 99, 235, 0.03) 100%
+  );
+  --gradient-glow-violet: linear-gradient(
+    180deg,
+    rgba(240, 248, 255, 0.10) 0%,
+    rgba(240, 248, 255, 0) 60%
+  );
+
+  /* Shadows */
+  --shadow-button: inset -1px -3px 10px 0px rgba(0, 0, 0, 0.06),
+    0px 6px 12px 0px rgba(15, 23, 42, 0.06);
+  --shadow-button-hover: inset -1px -3px 10px 0px rgba(0, 0, 0, 0.08),
+    0px 10px 18px 0px rgba(37, 99, 235, 0.08);
+  --shadow-card: 0px 12px 28px rgba(15, 23, 42, 0.06);
+
+  /* Media-frame placeholder card (see main.css .media-frame) */
+  --media-frame-bg: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.06),
+    rgba(37, 99, 235, 0.10)
+  );
+  --media-frame-wash: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.7),
+    rgba(37, 99, 235, 0.04) 55%,
+    rgba(37, 99, 235, 0.06)
+  );
+  --media-frame-icon-filter: none;
+
+  /* Typography */
+  --font-display: "Paytone One", sans-serif;
+  --font-body: "Pavanam", sans-serif;
+  --font-ui: "Outfit", sans-serif;
+  --font-accent: "ADLaM Display", sans-serif;
+
+  /* Fluid type scale: clamp(min, preferred, max) */
+  --fs-hero-title: clamp(1.9rem, 1.3rem + 2.4vw, 2.5rem);
+  --fs-section-title: clamp(1.5rem, 1.1rem + 1.8vw, 2.25rem);
+  --fs-body: clamp(0.9rem, 0.85rem + 0.25vw, 0.95rem);
+  --fs-button: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  --fs-footer-link: clamp(0.9rem, 0.85rem + 0.2vw, 1.0625rem);
+
+  /* Fluid spacing scale */
+  --space-xs: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 0.6rem + 0.6vw, 1.25rem);
+  --space-md: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+  --space-lg: clamp(2.5rem, 1.8rem + 2.8vw, 4.5rem);
+  --space-xl: clamp(4rem, 2.8rem + 4.8vw, 7.5rem);
+  --space-2xl: clamp(5rem, 3.2rem + 7vw, 10rem);
+
+  /* Shape */
+  --radius-pill: 26px;
+  --radius-card: 20px;
+
+  /* Layout */
+  --container-width: 1280px;
+  --container-padding: clamp(20px, 5vw, 80px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.2s;
+  --duration-base: 0.5s;
+  --duration-slow: 0.8s;
+
+  /* Shared timing for light/dark theme crossfades — referenced
+     inside individual components' own `transition` lists rather
+     than applied as a blanket `*` rule, so it never fights a
+     component's other transitions (transform, etc). */
+  --theme-transition: background-color 0.4s ease, color 0.4s ease,
+    border-color 0.4s ease, fill 0.4s ease;
+}
+
+/* Breakpoint reference (used in main.css media queries):
+   1024px — laptop / iPad landscape
+   768px  — iPad portrait / large phones
+   480px  — phones
+*/
+
+/* =========================================================
+   Dark theme
+   index.html sets data-theme="dark"|"light" on <html> via a
+   tiny inline script that runs before first paint (checks
+   localStorage, falls back to the OS's prefers-color-scheme),
+   so this is the only selector dark values need — no
+   prefers-color-scheme media query duplication required here.
+   ========================================================= */
+:root[data-theme="dark"] {
+  --color-bg: #0a1422;
+
+  --color-primary: #2f8ab8;
+  --color-accent: #2fb2ff;
+
+  --color-text-heading: rgba(255, 255, 255, 0.92);
+  --color-text-body: rgba(255, 255, 255, 0.78);
+  --color-text-on-accent: #ffffff;
+
+  --color-overlay-light: rgba(255, 255, 255, 0.08);
+  --color-overlay-dark: rgba(255, 255, 255, 0.05);
+  --color-cta-bg: rgba(47, 178, 255, 0.55);
+  --color-glass-bg: rgba(10, 20, 34, 0.65);
+  --color-glass-border: rgba(255, 255, 255, 0.08);
+
+  --gradient-glow-blue: linear-gradient(
+    180deg,
+    rgba(47, 178, 255, 0.32) 0%,
+    rgba(47, 178, 255, 0.02) 100%
+  );
+  --gradient-glow-violet: linear-gradient(
+    180deg,
+    rgba(168, 109, 230, 0.28) 0%,
+    rgba(168, 109, 230, 0.02) 100%
+  );
+
+  --shadow-button: inset -1px -3px 13px 0px rgba(0, 0, 0, 0.4),
+    0px 8px 18px 0px rgba(0, 0, 0, 0.45),
+    inset 4px 5px 6px 0px rgba(255, 255, 255, 0.05);
+  --shadow-button-hover: inset -1px -3px 13px 0px rgba(0, 0, 0, 0.4),
+    0px 14px 26px 0px rgba(47, 178, 255, 0.35),
+    inset 4px 5px 6px 0px rgba(255, 255, 255, 0.07);
+  --shadow-card: 0px 20px 45px rgba(0, 0, 0, 0.5),
+    0px 0px 0px 1px rgba(255, 255, 255, 0.06);
+
+  --media-frame-bg: linear-gradient(
+    135deg,
+    rgba(47, 178, 255, 0.16),
+    rgba(11, 26, 41, 0.6)
+  );
+  --media-frame-wash: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.07),
+    rgba(47, 178, 255, 0.16) 55%,
+    rgba(5, 14, 24, 0.4)
+  );
+  --media-frame-icon-filter: invert(1) brightness(1.7);
+}

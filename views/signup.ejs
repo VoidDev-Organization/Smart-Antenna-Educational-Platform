@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Sign Up — Smart Antenna</title>
+
+  <!-- FOUC prevention: same as index.html -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("theme");
+        if (stored === "dark" || stored === "light") {
+          document.documentElement.dataset.theme = stored;
+        } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          document.documentElement.dataset.theme = "dark";
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Outfit:wght@400;600&family=Paytone+One&family=Pavanam&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="/assets/css/reset.css" />
+  <link rel="stylesheet" href="/assets/css/variables.css" />
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <link rel="stylesheet" href="/assets/css/auth.css" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true">
+    <div class="stars__layer stars__layer--1"></div>
+    <div class="stars__layer stars__layer--2"></div>
+    <div class="stars__layer stars__layer--3"></div>
+  </div>
+
+  <button
+    type="button"
+    class="theme-toggle"
+    id="themeToggle"
+    aria-label="Switch to dark mode"
+    aria-pressed="false"
+  >
+    <span class="theme-toggle__track" aria-hidden="true">
+      <span class="theme-toggle__thumb">
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </span>
+    </span>
+    <span class="theme-toggle__label">Light</span>
+  </button>
+
+  <div class="page">
+    <div class="background-decoration" aria-hidden="true">
+      <div class="bg-blur bg-blur--hero"></div>
+      <div class="bg-blur bg-blur--lower"></div>
+      <div class="bg-gradient bg-gradient--hero-right"></div>
+      <div class="bg-gradient bg-gradient--hero-left"></div>
+    </div>
+
+    <nav class="auth-nav">
+      <div class="container auth-nav__inner">
+        <a href="/" class="auth-nav__logo">Smart Antenna</a>
+        <div class="auth-nav__links">
+          <a href="/">Home</a>
+          <a href="/login">Login</a>
+          <a href="/signup" class="is-active">Sign Up</a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="auth">
+      <div class="container auth__container">
+        <div class="auth__intro">
+          <h1 class="auth__title">Create your account</h1>
+          <h2 class="auth__title auth__title--muted">Join Smart Antenna — professional learning, built for results</h2>
+          <p class="auth__description">
+            Use a valid email and a strong password. We'll never share your information — all fields are required.
+          </p>
+        </div>
+
+        <form class="auth__card" id="signupForm" novalidate>
+          <div class="auth__row">
+            <div class="auth__field">
+              <label class="auth__label" for="firstName">First name</label>
+              <input class="auth__input" type="text" id="firstName" name="firstName" placeholder="First name" required />
+            </div>
+            <div class="auth__field">
+              <label class="auth__label" for="lastName">Last name</label>
+              <input class="auth__input" type="text" id="lastName" name="lastName" placeholder="Last name" required />
+            </div>
+          </div>
+
+          <div class="auth__field">
+            <label class="auth__label" for="username">Username</label>
+            <input class="auth__input" type="text" id="username" name="username" placeholder="Choose a username" autocomplete="username" required />
+          </div>
+
+          <div class="auth__field">
+            <label class="auth__label" for="email">Email</label>
+            <input class="auth__input" type="email" id="email" name="email" placeholder="Enter email" autocomplete="email" required />
+          </div>
+
+          
+
+          <div class="auth__row">
+            <div class="auth__field">
+              <label class="auth__label" for="password">Password</label>
+              <input class="auth__input" type="password" id="password" name="password" placeholder="Create a strong password" autocomplete="new-password" required minlength="8" aria-describedby="pwdStrength pwdHelp" />
+              </button>
+              
+              <p class="auth__field-error" id="passwordError" aria-live="polite"></p>
+            </div>
+            <div class="auth__field">
+              <label class="auth__label" for="confirmPassword">Confirm password</label>
+              <input class="auth__input" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" autocomplete="new-password" required aria-describedby="confirmHelp" />
+              </button>
+              <p class="auth__field-error" id="confirmError" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <p class="auth__error" id="formError" role="alert" aria-live="assertive"></p>
+
+          <button type="submit" class="btn btn--login auth__submit">Create Account</button>
+
+          <p class="auth__switch">
+            Already registered? <a class="auth__link" href="/login">Log in</a>
+          </p>
+          <p class="auth__notice">By creating an account you agree to our Terms and Privacy Policy.</p>
+        </form>
+      </div>
+    </section>
+  </div>
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__container">
+      <h3 class="site-footer__heading">Smart Antenna</h3>
+      <p class="site-footer__tagline">Learn. Build. Ship.</p>
+
+      <div class="site-footer__meta">
+        <nav class="site-footer__social-links" aria-label="Social media">
+          <a class="site-footer__social-icon-link" href="#" aria-label="Follow us on Instagram">
+            <img class="site-footer__social-icon" src="/assets/images/icons/icon-instagram.png" alt="" />
+          </a>
+          <a class="site-footer__social-icon-link" href="#" aria-label="Follow us on LinkedIn">
+            <img class="site-footer__social-icon" src="/assets/images/icons/icon-linkedin.png" alt="" />
+          </a>
+          <a class="site-footer__social-icon-link" href="#" aria-label="Follow us on Facebook">
+            <img class="site-footer__social-icon" src="/assets/images/icons/icon-facebook.png" alt="" />
+          </a>
+        </nav>
+
+        <div class="site-footer__legal-links">
+          <a href="#" class="site-footer__link">Terms &amp; Conditions</a>
+          <a href="#" class="site-footer__link">Privacy Policy</a>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">&copy; <span id="year">2026</span> Smart Antenna</div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById("signupForm");
+      var errorEl = document.getElementById("formError");
+      var pwd = document.getElementById("password");
+      var confirm = document.getElementById("confirmPassword");
+      var pwdError = document.getElementById("passwordError");
+      var confirmError = document.getElementById("confirmError");
+
+      // password strength and per-field show/hide removed
+
+      // per-field toggles removed — using only the master `Show passwords` checkbox
+
+      pwd.addEventListener("input", function () {
+        pwdError.textContent = "";
+        errorEl.textContent = "";
+      });
+
+      confirm.addEventListener("input", function () {
+        confirmError.textContent = "";
+        errorEl.textContent = "";
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var first = document.getElementById("firstName").value.trim();
+        var last = document.getElementById("lastName").value.trim();
+        var username = document.getElementById("username").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var password = pwd.value;
+        var confirmVal = confirm.value;
+
+        // clear
+        pwdError.textContent = "";
+        confirmError.textContent = "";
+        errorEl.textContent = "";
+
+        if (!first || !last || !username || !email) {
+          errorEl.textContent = "Please complete all required fields.";
+          return;
+        }
+
+        var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRe.test(email)) {
+          errorEl.textContent = "Please enter a valid email address.";
+          return;
+        }
+
+        if (username.length < 3) {
+          errorEl.textContent = "Username must be at least 3 characters.";
+          return;
+        }
+
+        if (password.length < 8) {
+          pwdError.textContent = "Password must be at least 8 characters.";
+          pwd.focus();
+          return;
+        }
+
+        if (password !== confirmVal) {
+          confirmError.textContent = "Passwords do not match.";
+          confirm.focus();
+          return;
+        }
+
+        // save user (local demo only)
+        var user = {
+          firstName: first,
+          lastName: last,
+          username: username,
+          email: email,
+          joinedAt: new Date().toISOString()
+        };
+
+        try {
+          localStorage.setItem("user_" + user.username, JSON.stringify(user));
+          localStorage.setItem("currentUser", user.username);
+        } catch (err) {
+          console.warn(err);
+        }
+
+        // simple success flow
+        window.location.href = "/profile";
+      });
+
+      // init complete
+    })();
+  </script>
+</body>
+</html>

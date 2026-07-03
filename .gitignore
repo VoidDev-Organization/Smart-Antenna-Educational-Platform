@@ -39,6 +39,7 @@ bower_components
 build/Release
 
 # Dependency directories
+requirments/
 node_modules/
 jspm_packages/
 
@@ -118,3 +119,4 @@ dist
 .pnp.*
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node
+

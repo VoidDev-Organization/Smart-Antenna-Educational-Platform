@@ -1,0 +1,413 @@
+/* =========================================================
+   Profile page
+   Dashboard shown after sign in / sign up. Built on the same
+   tokens as main.css/auth.css so it matches the rest of the
+   site and supports dark mode automatically.
+   ========================================================= */
+
+.profile-topbar {
+  background: var(--color-glass-bg);
+  border-bottom: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-button);
+  position: fixed; /* make header reliably stay at top */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 70; /* below theme-toggle (75) but above content */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: var(--theme-transition);
+}
+
+.profile-topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding-block: var(--space-xs);
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.profile-topbar__brand {
+  position: absolute;
+  left: var(--container-padding);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1rem + 0.6vw, 1.4rem);
+  color: var(--color-text-heading);
+}
+
+.profile-topbar__links {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.profile-topbar__links a {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+  transition: color var(--duration-fast) var(--ease-out), transform 0.2s var(--ease-out);
+  position: relative;
+}
+
+.profile-topbar__links a:hover,
+.profile-topbar__links a.is-active {
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 720px) {
+  .profile-topbar__brand {
+    position: static;
+  }
+  .profile-topbar__inner {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+}
+
+/* -------------------------------------------------------
+   Layout
+   ------------------------------------------------------- */
+.profile {
+  padding-block: var(--space-lg) var(--space-xl);
+  /* account for fixed topbar so content is not hidden underneath */
+  padding-top: calc(var(--space-lg) + 64px);
+  position: relative;
+}
+
+.profile__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: var(--space-md);
+  align-items: start;
+}
+
+.profile__main {
+  display: flex;
+    box-shadow: var(--shadow-card);
+  gap: var(--space-md);
+}
+
+.profile__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  position: sticky;
+  top: 100px;
+}
+
+@media (max-width: 900px) {
+  .profile__grid {
+    grid-template-columns: 1fr;
+  }
+  .profile__side {
+    position: static;
+  }
+}
+
+/* -------------------------------------------------------
+   Shared glass card — same treatment as .auth__card in
+   auth.css, so login/signup/profile all match.
+   ------------------------------------------------------- */
+.profile-card {
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-button);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: var(--theme-transition);
+}
+
+/* -------------------------------------------------------
+   Identity card
+   ------------------------------------------------------- */
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.profile-identity__avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-card);
+  background: var(--color-overlay-dark);
+}
+
+.profile-identity__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.profile-identity__eyebrow {
+  font-family: var(--font-accent);
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  letter-spacing: 0.04em;
+}
+
+.profile-identity__name {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-text-heading);
+  overflow-wrap: anywhere;
+}
+
+.profile-identity__email {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-body);
+  overflow-wrap: anywhere;
+}
+
+.profile-identity__joined {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+  opacity: 0.75;
+}
+
+/* -------------------------------------------------------
+   Stats card (progress bars)
+   Plain width-percentage bars — no conic-gradient, no CSS
+   custom properties set inline. Works everywhere.
+   ------------------------------------------------------- */
+.profile-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.progress-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-stat__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.progress-stat__title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-text-heading);
+}
+
+.progress-stat__value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-accent);
+}
+
+.progress-stat__track {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-overlay-dark);
+  overflow: hidden;
+  box-shadow: var(--shadow-button);
+}
+
+.progress-stat__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+/* Smooth width transitions and minimum visible fill on very small values */
+.progress-stat__fill {
+  transition: width 0.6s var(--ease-out);
+  min-width: 6%;
+}
+
+.progress-stat__desc {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--color-text-body);
+  line-height: 1.5;
+}
+
+/* -------------------------------------------------------
+   Courses card
+   ------------------------------------------------------- */
+.profile-courses__heading {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-text-heading);
+  margin-bottom: var(--space-xs);
+}
+
+.course-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+
+.course-row + .course-row {
+  border-top: 1px solid var(--color-overlay-dark);
+}
+
+.course-row__badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: var(--color-overlay-dark);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--color-accent);
+}
+
+.course-row__body {
+  min-width: 0;
+}
+
+.course-row__title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-text-heading);
+}
+
+.course-row__desc {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--color-text-body);
+}
+
+/* Slightly smaller badges and improved stacking on narrow viewports */
+.course-row__badge {
+  width: 44px;
+  height: 44px;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 480px) {
+  .profile-identity__avatar {
+    width: 72px;
+    height: 72px;
+  }
+
+  .profile-identity__name {
+    font-size: 1.25rem;
+  }
+
+  .profile__grid {
+    gap: var(--space-sm);
+  }
+
+  .profile-topbar__links {
+    gap: 8px;
+  }
+}
+
+/* -------------------------------------------------------
+   Sidebar: activity panel + logout
+   ------------------------------------------------------- */
+.profile-activity__heading {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text-heading);
+  margin-bottom: var(--space-xs);
+}
+
+.profile-activity__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.profile-activity__item {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--color-text-body);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.profile-activity__dot {
+  width: 6px;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.profile-activity__empty {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--color-text-body);
+  opacity: 0.7;
+}
+
+/* Extends the site-wide .btn class (main.css) — same padding,
+   pill shape, hover lift and click ripple as every other button
+   on the site. This modifier only overrides the color. */
+.btn--logout {
+  background: var(--color-error);
+  color: var(--color-text-on-accent);
+  width: 100%;
+  border: none;
+}
+
+.btn--logout:hover {
+  box-shadow: var(--shadow-button-hover);
+}
+
+/* -------------------------------------------------------
+   Back link (uses the Figma chevron asset)
+   ------------------------------------------------------- */
+.profile-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+  margin-bottom: var(--space-sm);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.profile-back:hover {
+  color: var(--color-accent);
+}
+
+.profile-back img {
+  width: 20px;
+  height: 20px;
+  transform: rotate(180deg);
+}
+
+/* -------------------------------------------------------
+   Guest / not-authenticated notice
+   ------------------------------------------------------- */
+.profile-guest {
+  text-align: center;
+  padding-block: var(--space-xl);
+}
+
+.profile-guest__text {
+  font-family: var(--font-body);
+  color: var(--color-text-body);
+  margin-bottom: var(--space-sm);
+}
