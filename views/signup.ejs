@@ -242,29 +242,16 @@
           confirm.focus();
           return;
         }
-
-        // save user (local demo only)
-        var user = {
-          firstName: first,
-          lastName: last,
-          username: username,
-          email: email,
-          joinedAt: new Date().toISOString()
-        };
-
-        try {
-          localStorage.setItem("user_" + user.username, JSON.stringify(user));
-          localStorage.setItem("currentUser", user.username);
-        } catch (err) {
-          console.warn(err);
-        }
-
+        console.log(email, password)
         // simple success flow
         window.location.href = "/profile";
       });
 
       // init complete
+
     })();
+
+
   </script>
 </body>
 </html>
