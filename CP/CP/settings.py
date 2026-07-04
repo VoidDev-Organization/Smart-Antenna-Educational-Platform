@@ -29,7 +29,10 @@ SECRET_KEY = 'django-insecure-ivvu9gsag%w&#9pnq+nvpp6qw67#kz!skk*y*bsdo5)bk!wgx#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'smart-antenna-django-backend.onrender.com',
+    'localhost:8000',
+]
 
 
 # Application definition
@@ -154,6 +157,8 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
+    'localhost:8000',
+    'smart-antenna-django-backend.onrender.com',
     
 ]
 
