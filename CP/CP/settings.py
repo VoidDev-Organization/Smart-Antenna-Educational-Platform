@@ -31,7 +31,6 @@ DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = [
      "smart-antenna-django-backend.onrender.com",
-     "localhost:8000/smart-antenna-django-backend.onrender.com"
     "localhost",
     "127.0.0.1",
 ]
@@ -161,7 +160,6 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "https://smart-antenna-django-backend.onrender.com",
-    "http://localhost:8000/smart-antenna-django-backend.onrender.com"
     
 ]
 
