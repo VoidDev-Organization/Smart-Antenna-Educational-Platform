@@ -34,4 +34,4 @@ class registerserializer(serializers.ModelSerializer):
             password = validated_data['password']
         )
 
-    
+
