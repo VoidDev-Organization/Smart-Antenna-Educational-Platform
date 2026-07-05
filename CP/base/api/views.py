@@ -1,7 +1,8 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from .serializer import registerserializer
 from dj_rest_auth.views import LoginView
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['POST'])
 def register(request):
@@ -30,3 +31,14 @@ class CustomLoginView(LoginView):
         return response
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def userinfo(request):
+    user = request.user
+    return Response({
+        "id":user.id,
+        "username":user.username,
+        "email":user.email,
+        "first_name":user.first_name,
+        "last_name":user.last_name,
+    })
