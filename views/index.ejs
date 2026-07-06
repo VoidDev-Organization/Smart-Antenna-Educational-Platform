@@ -150,18 +150,28 @@
           </svg>
         </span>
       </span>
+      
       <span class="theme-toggle__label">Light</span>
     </button>
+    
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-    <div class="sticky-bar" id="stickyBar" aria-hidden="true" inert>
-      <div class="container sticky-bar__inner">
-        <a href="/signup" class="btn btn--signup btn--sm" tabindex="-1"
-          >sign up</a
-        >
-        <a href="/login" class="btn btn--login btn--sm" tabindex="-1">Login</a>
+    <header class="site-nav profile-topbar">
+      <div class="container profile-topbar__inner site-nav__inner">
+        <a href="/" class="profile-topbar__brand site-nav__brand">Smart Antenna</a>
+        <nav class="profile-topbar__links site-nav__links" aria-label="Primary navigation">
+          <% if(user) { %>
+            <a href="/" class="btn btn--sm">Courses</a>
+            <a href="/profile" class="btn btn--sm">Profile</a>
+            <a href="/logout" class="btn btn--sm btn--login">Logout</a>
+          <% } else { %>
+            <a href="/" class="btn btn--sm">Home</a>
+            <a href="/profile" class="btn btn--sm">Profile</a>
+            <a href="/login" class="btn btn--sm btn--login">Login</a>
+          <% } %>
+        </nav>
       </div>
-    </div>
+    </header>
 
     <div class="page">
       <!-- Ambient background decoration, purely visual -->
@@ -183,13 +193,19 @@
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
               vulputate libero
             </h1>
+            <% if(user) { %>
             <p class="hero__description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
+                Welcome, <%= user.username %>
             </p>
+            <% } %>
             <div class="hero__cta-group">
-              <a href="/signup" class="btn btn--signup">sign up</a>
+              <% if(user) { %>
+              <a href="/profile" class="btn btn--signup">View Profile</a>
+              <a href="/logout" class="btn btn--logout">Logout</a>
+              <% }else { %> 
+              <a href="/signup" class="btn btn--signup">Signup</a>
               <a href="/login" class="btn btn--login">Login</a>
+              <% } %>
             </div>
           </div>
 
@@ -364,7 +380,7 @@
             try {
               localStorage.removeItem("currentUser");
             } catch (err) {}
-            window.location.reload();
+            window.location.href = "/logout";
           });
         });
       })();

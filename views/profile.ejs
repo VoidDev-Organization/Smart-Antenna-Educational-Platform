@@ -153,13 +153,11 @@
       <header class="site-header">
         <nav class="profile-topbar" aria-label="Main navigation">
           <div class="container profile-topbar__inner">
-            <a href="./index.html" class="profile-topbar__brand"
-              >Smart Antenna</a
-            >
+            <a href="/" class="profile-topbar__brand">Smart Antenna</a>
             <div class="profile-topbar__links">
-              <a href="./index.html">Home</a>
-              <a href="./profile.html#courses">Courses</a>
-              <a href="./profile.html#settings">Settings</a>
+              <a href="/">Home</a>
+              <a href="/profile#courses">Courses</a>
+              <a href="/profile#settings">Settings</a>
               <a href="#" id="liveChatLink">Livechat</a>
             </div>
           </div>
@@ -169,15 +167,15 @@
       <main class="profile">
         <div class="container">
           <!-- Shown only if nobody is signed in -->
-          <div class="profile-guest" id="guestNotice" hidden>
+          <div class="profile-guest" id="guestNotice" <%= user ? "hidden" : "" %>>
             <p class="profile-guest__text">
               You need to sign in to view your profile.
             </p>
-            <a class="btn btn--login" href="./login.html">Go to Sign In</a>
+            <a class="btn btn--login" href="/login">Go to Sign In</a>
           </div>
 
           <!-- Signed-in dashboard -->
-          <div id="profileContent" hidden>
+          <div id="profileContent" <%= user ? "" : "hidden" %>>
             <a class="profile-back" href="/">
               <img
                 src="/assets/images/icons/ic-sharp-navigate-next.svg"
@@ -203,11 +201,17 @@
                     <div class="profile-identity__eyebrow">
                       User information
                     </div>
-                    <div class="profile-identity__name" id="userName">—</div>
-                    <div class="profile-identity__email" id="userEmail">—</div>
-                    <div class="profile-identity__joined" id="userJoined">
-                      —
+                    <% if (user) { %>
+                    <div class="profile-identity__name" id="userName">
+                      <%= user.username %>
                     </div>
+                    <div class="profile-identity__email" id="userEmail">
+                      <%=  user.email %>
+                    </div>
+                    <div class="profile-identity__joined" id="userJoined">
+                      <%=  "Signed in" %>
+                    </div>
+                    <% } %>
                   </div>
                 </section>
 
@@ -292,7 +296,12 @@
                   </ul>
                 </section>
 
-                <button type="button" class="btn btn--logout" id="logoutBtn">
+                <button
+                  type="button"
+                  class="btn btn--logout"
+                  id="logoutBtn"
+                  href="/logout"
+                >
                   LOGOUT
                 </button>
               </aside>
@@ -357,102 +366,21 @@
 
     <script src="/assets/js/main.js"></script>
     <script>
-      (function () {
-        function getCurrentUserRecord() {
-          var currentUser = null;
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
           try {
-            currentUser = localStorage.getItem("currentUser");
+            window.location.href = "/logout";
           } catch (e) {}
-          if (!currentUser) return null;
+        });
 
-          // Signed up on this device: full record stored under user_<username>
-          try {
-            var direct = localStorage.getItem("user_" + currentUser);
-            if (direct) return JSON.parse(direct);
-          } catch (e) {}
-
-          // Signed in with email only: search stored users for a match
-          try {
-            for (var i = 0; i < localStorage.length; i++) {
-              var key = localStorage.key(i);
-              if (key && key.indexOf("user_") === 0) {
-                var record = JSON.parse(localStorage.getItem(key));
-                if (record && record.email === currentUser) return record;
-              }
-            }
-          } catch (e) {}
-
-          // No stored record — build a minimal one from the email itself
-          return { email: currentUser };
-        }
-
-        var record = getCurrentUserRecord();
-        var guestNotice = document.getElementById("guestNotice");
-        var content = document.getElementById("profileContent");
-
-        if (!record) {
-          guestNotice.hidden = false;
-          return;
-        }
-
-        content.hidden = false;
-
-        var fullName =
-          [record.firstName, record.lastName].filter(Boolean).join(" ") ||
-          record.username ||
-          "Member";
-        var email = record.email || "—";
-        var joined = record.joinedAt ? new Date(record.joinedAt) : null;
-
-        document.getElementById("userName").textContent = fullName;
-        document.getElementById("userEmail").textContent = email;
-        document.getElementById("userJoined").textContent = joined
-          ? "Joined " +
-            joined.toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
-          : "Join date unavailable";
-
-        // Avatar uses the local default image (assets/images/icons/default-avatar.svg,
-        // already set in the HTML) — no external network request needed.
-
-        // Join-history / activity list
-        var activityList = document.getElementById("activityList");
-        var items = [];
-        if (joined) {
-          items.push("Created account on " + joined.toLocaleDateString());
-        }
-        items.push("Signed in on " + new Date().toLocaleDateString());
-        if (items.length) {
-          activityList.innerHTML = items
-            .map(function (text) {
-              return (
-                '<li class="profile-activity__item"><span class="profile-activity__dot"></span>' +
-                text +
-                "</li>"
-              );
-            })
-            .join("");
-        }
-
-        document
-          .getElementById("logoutBtn")
-          .addEventListener("click", function () {
-            try {
-              localStorage.removeItem("currentUser");
-            } catch (e) {}
-            window.location.href = "./login.html";
-          });
-
-        document
-          .getElementById("liveChatLink")
-          .addEventListener("click", function (e) {
-            e.preventDefault();
-            alert("Livechat is coming soon!");
-          });
-      })();
+      document
+        .getElementById("liveChatLink")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          alert("Livechat is coming soon!");
+        });
     </script>
     <script>
       // Footer year

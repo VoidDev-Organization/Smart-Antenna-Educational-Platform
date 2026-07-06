@@ -46,7 +46,9 @@
   font-family: var(--font-ui);
   font-size: 0.9rem;
   color: var(--color-text-body);
-  transition: color var(--duration-fast) var(--ease-out), transform 0.2s var(--ease-out);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    transform 0.2s var(--ease-out);
   position: relative;
 }
 
@@ -78,15 +80,21 @@
 
 .profile__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: var(--space-md);
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 360px);
+  gap: 1.25rem;
   align-items: start;
 }
 
 .profile__main {
-  display: flex;
-    box-shadow: var(--shadow-card);
-  gap: var(--space-md);
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.profile__main > .profile-card {
+  width: 100%;
+  height: 100%;
 }
 
 .profile__side {
@@ -99,6 +107,9 @@
 
 @media (max-width: 900px) {
   .profile__grid {
+    grid-template-columns: 1fr;
+  }
+  .profile__main {
     grid-template-columns: 1fr;
   }
   .profile__side {
@@ -114,11 +125,12 @@
   background: var(--color-glass-bg);
   border: 1px solid var(--color-glass-border);
   border-radius: var(--radius-card);
-  padding: var(--space-md);
+  padding: 1.4rem;
   box-shadow: var(--shadow-button);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition: var(--theme-transition);
+  min-width: 0;
 }
 
 /* -------------------------------------------------------
@@ -127,13 +139,13 @@
 .profile-identity {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   flex-wrap: wrap;
 }
 
 .profile-identity__avatar {
-  width: 96px;
-  height: 96px;
+  width: 128px;
+  height: 128px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -144,13 +156,13 @@
 .profile-identity__body {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.35rem;
   min-width: 0;
 }
 
 .profile-identity__eyebrow {
   font-family: var(--font-accent);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--color-accent);
   letter-spacing: 0.04em;
 }
@@ -158,21 +170,21 @@
 .profile-identity__name {
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: var(--color-text-heading);
   overflow-wrap: anywhere;
 }
 
 .profile-identity__email {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--color-text-body);
   overflow-wrap: anywhere;
 }
 
 .profile-identity__joined {
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--color-text-body);
   opacity: 0.75;
 }
@@ -185,13 +197,13 @@
 .profile-stats {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: var(--space-md);
 }
 
 .progress-stat {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .progress-stat__row {
@@ -203,13 +215,13 @@
 
 .progress-stat__title {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--color-text-heading);
 }
 
 .progress-stat__value {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--color-accent);
 }
 
@@ -236,7 +248,7 @@
 
 .progress-stat__desc {
   font-family: var(--font-ui);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--color-text-body);
   line-height: 1.5;
 }
@@ -364,7 +376,7 @@
    pill shape, hover lift and click ripple as every other button
    on the site. This modifier only overrides the color. */
 .btn--logout {
-  background: var(--color-error);
+  background: rgb(4, 4, 77);
   color: var(--color-text-on-accent);
   width: 100%;
   border: none;
@@ -372,6 +384,8 @@
 
 .btn--logout:hover {
   box-shadow: var(--shadow-button-hover);
+  background: #dc2626;
+  color: white;
 }
 
 /* -------------------------------------------------------

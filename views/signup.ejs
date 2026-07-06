@@ -177,9 +177,8 @@
     </div>
   </footer>
 
-  <script src="/assets/js/main.js"></script>
+
   <script>
-    (function () {
       var form = document.getElementById("signupForm");
       var errorEl = document.getElementById("formError");
       var pwd = document.getElementById("password");
@@ -201,21 +200,21 @@
         errorEl.textContent = "";
       });
 
-      form.addEventListener("submit", function (e) {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        var first = document.getElementById("firstName").value.trim();
-        var last = document.getElementById("lastName").value.trim();
+        var first_name = document.getElementById("firstName").value.trim();
+        var last_name = document.getElementById("lastName").value.trim();
         var username = document.getElementById("username").value.trim();
         var email = document.getElementById("email").value.trim();
         var password = pwd.value;
-        var confirmVal = confirm.value;
+        var confirm_password = confirm.value;
 
         // clear
         pwdError.textContent = "";
         confirmError.textContent = "";
         errorEl.textContent = "";
 
-        if (!first || !last || !username || !email) {
+        if (!first_name || !last_name || !username || !email) {
           errorEl.textContent = "Please complete all required fields.";
           return;
         }
@@ -237,21 +236,65 @@
           return;
         }
 
-        if (password !== confirmVal) {
+        if (password !== confirm_password) {
           confirmError.textContent = "Passwords do not match.";
           confirm.focus();
           return;
         }
-        console.log(email, password)
+console.log(first_name,
+            last_name,
+            username,
+            email,
+            password,
+            confirm_password)
+          try {
+          const res = await fetch("https://smart-antenna-django-backend.onrender.com/api/register/", {
+            method: "POST",
+            body: JSON.stringify({ 
+            first_name,
+            last_name,
+            username,
+            email,
+            password,
+            confirm_password,}),
+            headers: { "Content-type": "application/json" },
+          });
+          const data = await res.json();
+          console.log(data.message);
+          if(data.message === "user created successfully"){
+          var user = {
+          firstName: first_name,
+          lastName: last_name,
+          username: username,
+          email: email,
+          joinedAt: new Date().toISOString()
+        };
+
+        try {
+          localStorage.setItem("user_" + user.username, JSON.stringify(user));
+          localStorage.setItem("currentUser", user.username);
+        } catch (err) {
+          console.warn(err);
+        }
+
         // simple success flow
-        window.location.href = "/profile";
+        window.location.href = "/login";
+      }
+      else{
+        alert('failed to signup')
+      }
+        } catch (error) {
+          console.log(error);
+        }
+
       });
+
 
       // init complete
 
-    })();
 
 
   </script>
+    <script src="/assets/js/main.js"></script>
 </body>
 </html>

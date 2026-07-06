@@ -198,14 +198,6 @@
               />
             </div>
 
-            <div class="auth__meta-row">
-              <label class="auth__remember">
-                <input type="checkbox" id="rememberMe" name="rememberMe" />
-                Remember me
-              </label>
-              <a class="auth__link" href="#">Forgot password?</a>
-            </div>
-
             <p class="auth__error" id="formError" role="alert"></p>
 
             <button type="submit" class="btn btn--login auth__submit">
@@ -278,12 +270,11 @@
     <script>
       document
         .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
+        .addEventListener("submit", async (e) => {
           e.preventDefault();
           var errorEl = document.getElementById("formError");
           var email = document.getElementById("email").value.trim();
           var password = document.getElementById("password").value;
-          var rememberMe = document.getElementById("rememberMe").checked;
 
           if (!email || !password) {
             errorEl.textContent = "Please enter your email and password.";
@@ -294,37 +285,23 @@
             return;
           }
 
-          var foundUser = null;
           try {
-            for (var i = 0; i < localStorage.length; i++) {
-              var key = localStorage.key(i);
-              if (key && key.indexOf("user_") === 0) {
-                var record = JSON.parse(localStorage.getItem(key));
-                if (record && record.email === email) {
-                  foundUser = record;
-                  break;
-                }
-              }
+            const res = await fetch("/login", {
+              method: "POST",
+              body: JSON.stringify({
+                email,
+                password,
+              }),
+              headers: { "Content-type": "application/json" },
+            });
+            const data = await res.json();
+            console.log(data);
+            if (data.message === "Login successful") {
+              window.location.href = "./profile";
             }
-          } catch (err) {
-            foundUser = null;
-          }
-
-          if (!foundUser) {
-            errorEl.textContent = "No account found with that email.";
-            return;
-          }
-          if (foundUser.password !== password) {
-            errorEl.textContent = "Incorrect password.";
-            return;
-          }
-
-          try {
-            if (rememberMe) localStorage.setItem("rememberMe", email);
-            localStorage.setItem("currentUser", email);
           } catch (err) {}
 
-          window.location.href = "/profile";
+          // window.location.href = "/profile";
         });
     </script>
   </body>

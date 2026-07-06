@@ -68,7 +68,11 @@
   box-shadow: var(--shadow-button);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out), border-color 0.3s var(--ease-out), var(--theme-transition);
+  transition:
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    var(--theme-transition);
   animation: fadeUp 0.9s var(--ease-out) 0.08s both;
 }
 
@@ -107,8 +111,11 @@
   font-size: 0.95rem;
   color: var(--color-text-heading);
   box-shadow: var(--shadow-button);
-  transition: transform 0.2s var(--ease-out), border-color var(--duration-fast) var(--ease-out),
-    box-shadow var(--duration-fast) var(--ease-out), var(--theme-transition);
+  transition:
+    transform 0.2s var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out),
+    var(--theme-transition);
   width: 100%;
 }
 
@@ -134,7 +141,7 @@
   margin-top: var(--space-xs);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+  background: rgb(4, 4, 77);
   color: white;
   padding: 12px 18px;
   border-radius: 12px;
@@ -176,7 +183,9 @@
 .auth__link {
   color: var(--color-accent);
   font-weight: 600;
-  transition: opacity var(--duration-fast) var(--ease-out), transform 0.2s var(--ease-out);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform 0.2s var(--ease-out);
   display: inline-block;
 }
 
@@ -245,6 +254,10 @@
    -------------------------- */
 :root:not([data-theme="dark"]) {
   /* Tighter hero / intro spacing */
+  .auth__submit {
+    background: rgb(4, 4, 77);
+    color: white;
+  }
 }
 
 :root:not([data-theme="dark"]) .auth {
@@ -280,7 +293,7 @@
 
 :root:not([data-theme="dark"]) .auth__card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 44px rgba(15,23,42,0.08);
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.08);
 }
 
 :root:not([data-theme="dark"]) .auth__input {
@@ -292,33 +305,40 @@
 
 :root:not([data-theme="dark"]) .auth__input:hover {
   transform: translateY(-1px);
-  border-color: rgba(14,165,233,0.18);
+  border-color: rgba(14, 165, 233, 0.18);
 }
 
 :root:not([data-theme="dark"]) .auth__input:focus {
   outline: none;
   border-color: var(--color-primary-hover);
-  box-shadow: 0 8px 30px rgba(37,99,235,0.08);
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
   transform: translateY(-2px);
 }
 
 :root:not([data-theme="dark"]) .auth__submit {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
-  box-shadow: 0 12px 30px rgba(37,99,235,0.12);
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-primary-hover)
+  );
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.12);
   padding: 14px 20px;
   border-radius: 14px;
-  transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out), filter 220ms ease;
+  transition:
+    transform 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out),
+    filter 220ms ease;
 }
 
 :root:not([data-theme="dark"]) .auth__submit:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 18px 40px rgba(37,99,235,0.16);
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.16);
   filter: saturate(1.03);
 }
 
 :root:not([data-theme="dark"]) .auth__submit:active {
   transform: translateY(0) scale(0.99);
-  box-shadow: 0 8px 18px rgba(37,99,235,0.10);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.1);
 }
 
 /* Use 8px spacing in form rows */
@@ -356,7 +376,12 @@
   top: -8%;
   width: 520px;
   height: 520px;
-  background: radial-gradient(circle at 30% 30%, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0.02) 35%, transparent 50%);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(37, 99, 235, 0.08) 0%,
+    rgba(37, 99, 235, 0.02) 35%,
+    transparent 50%
+  );
   filter: blur(60px) saturate(120%);
   pointer-events: none;
   z-index: -1;
@@ -365,7 +390,6 @@
 .auth__field {
   position: relative;
 }
-
 
 /* Simple top nav shared by both auth pages */
 .auth-nav {
@@ -399,7 +423,9 @@
   font-family: var(--font-ui);
   font-size: 0.9rem;
   color: var(--color-text-body);
-  transition: color var(--duration-fast) var(--ease-out), transform 0.2s var(--ease-out);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    transform 0.2s var(--ease-out);
   position: relative;
 }
 
