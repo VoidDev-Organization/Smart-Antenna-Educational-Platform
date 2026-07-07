@@ -3,6 +3,9 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializer import registerserializer
 from dj_rest_auth.views import LoginView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework.views import APIView
+
 
 @api_view(['POST'])
 def register(request):
@@ -15,20 +18,24 @@ def register(request):
     return Response(serializer.errors,status=400)
     
 
-class CustomLoginView(LoginView):
+class LoginView(APIView):
+    def post(self, request):
+        serializer = TokenObtainPairSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-    def get_response(self):
-        response = super().get_response()
+        user = serializer.user
 
-        response.data["user"] = {
-            "id": self.user.id,
-            "username": self.user.username,
-            "email": self.user.email,
-            "first_name": self.user.first_name,
-            "last_name": self.user.last_name,
-        }
-
-        return response
+        return Response({
+            "access": serializer.validated_data["access"],
+            "refresh": serializer.validated_data["refresh"],
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+            }
+        })
 
 
 @api_view(['GET'])
@@ -41,4 +48,5 @@ def userinfo(request):
         "email":user.email,
         "first_name":user.first_name,
         "last_name":user.last_name,
+        "date_joined":user.date_joined
     })
