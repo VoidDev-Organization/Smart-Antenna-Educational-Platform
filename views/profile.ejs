@@ -158,7 +158,6 @@
               <a href="/">Home</a>
               <a href="/profile#courses">Courses</a>
               <a href="/profile#settings">Settings</a>
-              <a href="#" id="liveChatLink">Livechat</a>
             </div>
           </div>
         </nav>
@@ -290,9 +289,10 @@
               <!-- Sidebar -->
               <aside class="profile__side">
                 <section class="profile-card" aria-label="Recent activity">
-                  <h2 class="profile-activity__heading">Join history</h2>
+                  <h2 class="profile-activity__heading">Join history    
+                  </h2>
                   <ul class="profile-activity__list" id="activityList">
-                    <li class="profile-activity__empty">No activity yet.</li>
+                    <li class="profile-activity__empty"><%= user.date_joined %></li>
                   </ul>
                 </section>
 
@@ -373,13 +373,6 @@
           try {
             window.location.href = "/logout";
           } catch (e) {}
-        });
-
-      document
-        .getElementById("liveChatLink")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          alert("Livechat is coming soon!");
         });
     </script>
     <script>

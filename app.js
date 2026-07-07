@@ -4,10 +4,11 @@ const path = require("path");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const { requireAuth, checkUser } = require("./middleware/authMiddleware");
+const { checkUser } = require("./middleware/authMiddleware");
 require("dotenv").config();
+
 const app = express();
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
 
 app.set("view engine", "ejs");
@@ -35,7 +36,7 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body || {};
+  const { username, password } = req.body || {};
 
   try {
     const backendRes = await fetch(
@@ -43,7 +44,7 @@ app.post("/login", async (req, res) => {
       {
         method: "POST",
         body: JSON.stringify({
-          email,
+          username,
           password,
         }),
         headers: { "Content-type": "application/json" },
@@ -51,23 +52,15 @@ app.post("/login", async (req, res) => {
     );
 
     const data = await backendRes.json();
-    const backendToken = data.access;
+    const token = data.access;
 
-    if (!backendToken) {
+    if (!token) {
       return res
         .status(401)
         .json({ message: "No token returned by the auth service." });
     }
 
-    const appToken = jwt.sign({ email }, JWT_SECRET, {
-      expiresIn: "1d",
-    });
-
-    res.cookie("jwt", appToken, {
-      httpOnly: true,
-      maxAge: ONE_DAY_MS,
-    });
-    res.cookie("backendJwt", backendToken, {
+    res.cookie("jwt", token, {
       httpOnly: true,
       maxAge: ONE_DAY_MS,
     });
@@ -81,6 +74,5 @@ app.post("/login", async (req, res) => {
 
 app.get("/logout", (req, res) => {
   res.clearCookie("jwt", { path: "/" });
-  res.clearCookie("backendJwt", { path: "/" });
   return res.redirect("/");
 });

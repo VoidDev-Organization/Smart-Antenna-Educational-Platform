@@ -1,38 +1,24 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
-const requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
-
-  if (token) {
-    jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
-      if (err) {
-        console.log(err.message);
-        res.redirect("/login");
-      } else {
-        console.log(decodedToken);
-        next();
-      }
-    });
-  } else {
-    next();
-  }
+const clearAuthCookies = (res) => {
+  res.clearCookie("jwt", { path: "/" });
 };
 
 const checkUser = (req, res, next) => {
-  const appToken = req.cookies.jwt;
-  const backendToken = req.cookies.backendJwt;
+  const token = req.cookies.jwt;
 
-  if (!appToken || !backendToken) {
+  if (!token) {
     res.locals.user = null;
     return next();
   }
 
-  jwt.verify(appToken, JWT_SECRET, async (err) => {
+  jwt.verify(token, JWT_SECRET, async (err) => {
     if (err) {
       console.log(err.message);
+      clearAuthCookies(res);
       res.locals.user = null;
       return next();
     }
@@ -44,7 +30,7 @@ const checkUser = (req, res, next) => {
           method: "GET",
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${backendToken}`,
+            Authorization: `Bearer ${token}`,
           },
         },
       );
@@ -56,7 +42,11 @@ const checkUser = (req, res, next) => {
       }
 
       const user = await userRes.json();
-      console.log(user);
+      const date = new Date(user.date_joined);
+      const year = date.getFullYear();
+      const month = date.toLocaleDateString("en-US", { month: "long" }); // "July"
+      const day = date.getDate();
+      user.date_joined = `${year}/${month}/${day}`;
       res.locals.user = user;
       next();
     } catch (error) {
@@ -67,4 +57,4 @@ const checkUser = (req, res, next) => {
   });
 };
 
-module.exports = { requireAuth, checkUser };
+module.exports = { checkUser };
