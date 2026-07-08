@@ -273,11 +273,15 @@
         .addEventListener("submit", async (e) => {
           e.preventDefault();
           var errorEl = document.getElementById("formError");
-          var username = document.getElementById("email").value.trim();
+          var email = document.getElementById("email").value.trim();
           var password = document.getElementById("password").value;
 
-          if (!username || !password) {
+          if (!email || !password) {
             errorEl.textContent = "Please enter your email and password.";
+            return;
+          }
+          if (!/^\S+@\S+\.\S+$/.test(email)) {
+            errorEl.textContent = "Please enter a valid email address.";
             return;
           }
 
@@ -285,7 +289,7 @@
             const res = await fetch("/login", {
               method: "POST",
               body: JSON.stringify({
-                username,
+                email,
                 password,
               }),
               headers: { "Content-type": "application/json" },

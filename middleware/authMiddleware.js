@@ -42,11 +42,15 @@ const checkUser = (req, res, next) => {
       }
 
       const user = await userRes.json();
+
+      // formatting the date to look presentable year/month/day
       const date = new Date(user.date_joined);
       const year = date.getFullYear();
       const month = date.toLocaleDateString("en-US", { month: "long" }); // "July"
       const day = date.getDate();
       user.date_joined = `${year}/${month}/${day}`;
+
+      //setting the user data to the locals
       res.locals.user = user;
       next();
     } catch (error) {

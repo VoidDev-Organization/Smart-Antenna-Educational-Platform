@@ -36,7 +36,7 @@ app.get("/profile", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body || {};
+  const { email, password } = req.body || {};
 
   try {
     const backendRes = await fetch(
@@ -44,7 +44,7 @@ app.post("/login", async (req, res) => {
       {
         method: "POST",
         body: JSON.stringify({
-          username,
+          email,
           password,
         }),
         headers: { "Content-type": "application/json" },
