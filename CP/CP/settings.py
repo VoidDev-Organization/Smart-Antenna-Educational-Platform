@@ -14,11 +14,19 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from datetime import timedelta
+import cloudinary
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Configure Cloudinary
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+)
 
 
 # Quick-start development settings - unsuitable for production
@@ -52,10 +60,13 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'rest_framework_simplejwt',
+    'cloudinary_storage',
+    'cloudinary',
 
 ]
 
 AUTH_USER_MODEL = 'base.User'
+
 
 
 MIDDLEWARE = [
