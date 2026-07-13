@@ -5,6 +5,9 @@ from .serializer import registerserializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.views import APIView
+import base64
+import uuid
+from django.core.files.base import ContentFile
 
 
 
@@ -63,46 +66,28 @@ def userinfo(request):
 @permission_classes([IsAuthenticated])
 def upload_pfp(request):
     user = request.user
-    file = request.FILES.get("profile_picture")
 
-    if not file:
-        return Response({"error": "No file provided."}, status=400)
+    
 
-    extension = file.name.split(".")[-1].lower()
+    # If no file, try Base64 image
+    img = request.data.get("img")
 
-    if extension not in ALLOWED_EXTENSIONS:
-        return Response({"error": "Invalid file type."}, status=400)
-
-    old_public_id = user.pfp.public_id if user.pfp else None
+    if not img:
+        return Response({"error": "No image provided."}, status=400)
 
     try:
-        result = cloudinary.uploader.upload(
-            file,
-            folder="profile_pictures",
-            moderation="aws_rek"
+        header, data = img.split(";base64,")
+        extension = header.split("/")[-1].lower()
+
+        if extension not in ALLOWED_EXTENSIONS:
+            return Response({"error": "Invalid file type."}, status=400)
+
+        file = ContentFile(
+            base64.b64decode(data),
+            name=f"{uuid.uuid4()}.{extension}"
         )
 
-        # Save the Cloudinary public_id
-        user.pfp = result["public_id"]
-        user.save()
+    except Exception:
+        return Response({"error": "Invalid image data."}, status=400)
 
-        # Delete the previous image
-        if old_public_id and old_public_id != result["public_id"]:
-            cloudinary.uploader.destroy(old_public_id)
-
-        return Response(
-            {
-                "message": "Profile picture uploaded successfully.",
-                "profile_picture": user.pfp.url,
-                "moderation": result.get("moderation")
-            },
-            status=200
-        )
-
-    except Exception as e:
-        return Response(
-            {
-                "error": str(e)
-            },
-            status=500
-        )
+    
