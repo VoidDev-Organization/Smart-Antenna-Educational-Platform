@@ -5,12 +5,12 @@ from .serializer import registerserializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.views import APIView
-from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 import base64
 import uuid
 
 from django.core.files.base import ContentFile
+from io import BytesIO
 
 
 from PIL import Image
@@ -18,11 +18,12 @@ from PIL import Image
 import cloudinary.uploader
 
 
-ALLOWED_CONTENT_TYPES = {
-    "image/png",
-    "image/jpeg",
-    "image/gif",
-    "image/webp",
+ALLOWED_EXTENSIONS = {
+    "png",
+    "jpg",
+    "jpeg",
+    "gif",
+    "webp"
 }
 
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
@@ -81,13 +82,11 @@ def userinfo(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-
 def upload_pfp(request):
 
     profile_picture = request.data.get("profile_picture")
 
     if not profile_picture:
-
         return Response(
             {
                 "error": "No image provided."
@@ -96,24 +95,46 @@ def upload_pfp(request):
         )
 
     try:
+        header, encoded = profile_picture.split(";base64,", 1)
 
-        header, encoded = profile_picture.split(";base64,")
+        extension = header.split("/")[-1].lower()
 
-        extension = header.split("/")[-1]
+        if extension not in ALLOWED_EXTENSIONS:
+            return Response(
+                {
+                    "error": "Invalid image type."
+                },
+                status=400
+            )
+
+        image_bytes = base64.b64decode(encoded)
+
+        # File size check
+        if len(image_bytes) > MAX_FILE_SIZE:
+            return Response(
+                {
+                    "error": "Image must be smaller than 10 MB."
+                },
+                status=400
+            )
+
+        # Verify image
+        Image.open(BytesIO(image_bytes)).verify()
 
         file = ContentFile(
-            base64.b64decode(encoded),
+            image_bytes,
             name=f"{uuid.uuid4()}.{extension}"
         )
 
     except Exception:
-
         return Response(
             {
-                "error": "Invalid image."
+                "error": "Invalid or corrupted image."
             },
             status=400
         )
+
+    old_public_id = request.user.pfp.public_id if request.user.pfp else None
 
     try:
 
@@ -123,20 +144,41 @@ def upload_pfp(request):
             moderation="aws_rek"
         )
 
-        request.user.pfp = result["public_id"]
+        moderation = result.get("moderation", [])
 
+        if moderation:
+
+            status = moderation[0].get("status")
+
+            if status != "approved":
+
+                cloudinary.uploader.destroy(result["public_id"])
+
+                return Response(
+                    {
+                        "error": "Image rejected by content moderation."
+                    },
+                    status=400
+                )
+
+        request.user.pfp = result["public_id"]
         request.user.save()
 
+        if old_public_id and old_public_id != result["public_id"]:
+            cloudinary.uploader.destroy(old_public_id)
+
         return Response(
             {
+                "message": "Profile picture uploaded successfully.",
                 "profile_picture": result["secure_url"]
-            }
+            },
+            status=200
         )
 
-    except Exception as e:
-
+    except Exception:
         return Response(
             {
-                "error": str(e)
+                "error": "Failed to upload image."
             },
-            status=500)
+            status=500
+        )
