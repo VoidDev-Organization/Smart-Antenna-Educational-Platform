@@ -7,6 +7,10 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
+import base64
+import uuid
+
+from django.core.files.base import ContentFile
 
 
 from PIL import Image
@@ -77,87 +81,62 @@ def userinfo(request):
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
-@parser_classes([MultiPartParser, FormParser])
+
 def upload_pfp(request):
-    user = request.user
 
-    img = request.FILES.get("img")
+    profile_picture = request.data.get("profile_picture")
 
-    if not img:
+    if not profile_picture:
+
         return Response(
-            {"error": "No image uploaded."},
+            {
+                "error": "No image provided."
+            },
             status=400
         )
 
-    # Check file type
-    if img.content_type not in ALLOWED_CONTENT_TYPES:
-        return Response(
-            {"error": "Invalid image type."},
-            status=400
-        )
-
-    # Check file size
-    if img.size > MAX_FILE_SIZE:
-        return Response(
-            {"error": "Image must be smaller than 10 MB."},
-            status=400
-        )
-
-    # Verify that the uploaded file is a real image
     try:
-        Image.open(img).verify()
-        img.seek(0)  # Reset file pointer after verify()
+
+        header, encoded = profile_picture.split(";base64,")
+
+        extension = header.split("/")[-1]
+
+        file = ContentFile(
+            base64.b64decode(encoded),
+            name=f"{uuid.uuid4()}.{extension}"
+        )
+
     except Exception:
+
         return Response(
-            {"error": "Invalid or corrupted image."},
+            {
+                "error": "Invalid image."
+            },
             status=400
         )
 
-    old_public_id = user.pfp.public_id if user.pfp else None
-
     try:
+
         result = cloudinary.uploader.upload(
-            img,
+            file,
             folder="profile_pictures",
             moderation="aws_rek"
         )
 
-        # Check moderation result
-        moderation = result.get("moderation", [])
+        request.user.pfp = result["public_id"]
 
-        if moderation:
-            status = moderation[0].get("status")
-
-            if status != "approved":
-                cloudinary.uploader.destroy(result["public_id"])
-
-                return Response(
-                    {
-                        "error": "Image rejected by content moderation."
-                    },
-                    status=400
-                )
-
-        # Save new image
-        user.pfp = result["public_id"]
-        user.save()
-
-        # Delete previous image
-        if old_public_id and old_public_id != result["public_id"]:
-            cloudinary.uploader.destroy(old_public_id)
+        request.user.save()
 
         return Response(
             {
-                "message": "Profile picture uploaded successfully.",
                 "profile_picture": result["secure_url"]
-            },
-            status=200
+            }
         )
 
-    except Exception:
+    except Exception as e:
+
         return Response(
             {
-                "error": "Failed to upload image."
+                "error": str(e)
             },
-            status=500
-        )
+            status=500)
