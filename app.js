@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const FormData = require("form-data");
 const path = require("path");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
@@ -11,10 +12,13 @@ const app = express();
 const JWT_SECRET = process.env.JWT_SECRET;
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
 
+
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use("/assets", express.static(path.join(__dirname, "views", "assets")));
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const server = app.listen(8000, () => {
@@ -31,16 +35,23 @@ app.get("/login", (req, res) => {
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
+app.get("/courses", (req, res) => {
+  res.render("courses");
+});
 app.get("/profile", (req, res) => {
   return res.render("profile", { user: res.locals.user || null });
 });
 
+
+
+
+// post routes
 app.post("/login", async (req, res) => {
   const { email, password } = req.body || {};
 
   try {
     const backendRes = await fetch(
-      "https://smart-antenna-django-backend.onrender.com/api/login/",
+      process.env.DJANGO_LOGIN_URL ,
       {
         method: "POST",
         body: JSON.stringify({
@@ -70,6 +81,92 @@ app.post("/login", async (req, res) => {
     console.log(error);
     return res.status(500).json({ message: "Login failed" });
   }
+});
+
+app.post("/signup", async (req, res) => {
+  const { first_name, last_name, username, email, password, confirm_password } = req.body;
+
+  try {
+    const backendRes = await fetch(
+      process.env.DJANGO_SIGNUP_URL ,{
+            method: "POST",
+            body: JSON.stringify({ 
+            first_name,
+            last_name,
+            username,
+            email,
+            password,
+            confirm_password,}),
+            headers: { "Content-type": "application/json" },
+          });
+
+    const data = await backendRes.json();
+
+    res.json(data);
+
+    return res.status(200).json({ message: "Signup successful" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Signup failed" });
+  }
+});
+
+app.post("/pfpimg", async (req, res) => {
+
+    const user = res.locals.user;
+
+    if (!user) {
+        return res.status(401).json({
+            error: "Not authenticated"
+        });
+    }
+
+    try {
+
+        const { profile_picture } = req.body;
+
+        if (
+            !profile_picture ||
+            typeof profile_picture !== "string" ||
+            !profile_picture.startsWith("data:image/")
+        ) {
+            return res.status(400).json({
+                error: "Invalid image."
+            });
+        }
+
+        const response = await fetch(
+            process.env.DJANGO_PFP_URL ,
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${req.cookies.jwt}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    profile_picture
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            return res.status(response.status).json(data);
+        }
+
+        res.json(data);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            error: "Server error"
+        });
+
+    }
+
 });
 
 app.get("/logout", (req, res) => {

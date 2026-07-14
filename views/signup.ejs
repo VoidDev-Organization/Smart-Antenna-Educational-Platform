@@ -76,16 +76,18 @@
       <div class="bg-gradient bg-gradient--hero-left"></div>
     </div>
 
-    <nav class="auth-nav">
-      <div class="container auth-nav__inner">
-        <a href="/" class="auth-nav__logo">Smart Antenna</a>
-        <div class="auth-nav__links">
-          <a href="/">Home</a>
-          <a href="/login">Login</a>
-          <a href="/signup" class="is-active">Sign Up</a>
-        </div>
+    <header class="site-nav profile-topbar">
+      <div class="container profile-topbar__inner site-nav__inner">
+        <a href="/" class="profile-topbar__brand site-nav__brand">Smart Antenna</a>
+        <nav class="profile-topbar__links site-nav__links" aria-label="Primary navigation">
+   
+            <a href="/" class="btn btn--sm">Back to Home</a>
+
+            <a href="/login" class="btn btn--sm btn--login">Login</a>
+
+        </nav>
       </div>
-    </nav>
+    </header>
 
     <section class="auth">
       <div class="container auth__container">
@@ -241,14 +243,9 @@
           confirm.focus();
           return;
         }
-console.log(first_name,
-            last_name,
-            username,
-            email,
-            password,
-            confirm_password)
+
           try {
-          const res = await fetch("https://smart-antenna-django-backend.onrender.com/api/register/", {
+          const res = await fetch("/signup", {
             method: "POST",
             body: JSON.stringify({ 
             first_name,
@@ -260,25 +257,14 @@ console.log(first_name,
             headers: { "Content-type": "application/json" },
           });
           const data = await res.json();
-          console.log(data.message);
+
+          alert(data.message);
+          
           if(data.message === "user created successfully"){
-          var user = {
-          firstName: first_name,
-          lastName: last_name,
-          username: username,
-          email: email,
-          joinedAt: new Date().toISOString()
-        };
-
-        try {
-          localStorage.setItem("user_" + user.username, JSON.stringify(user));
-          localStorage.setItem("currentUser", user.username);
-        } catch (err) {
-          console.warn(err);
-        }
-
-        // simple success flow
-        window.location.href = "/login";
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 1200);
+        
       }
       else{
         alert('failed to signup')
@@ -290,7 +276,7 @@ console.log(first_name,
       });
 
 
-      // init complete
+
 
 
 

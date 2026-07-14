@@ -5,14 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light dark" />
-    <title>Smart Antenna Landing Page</title>
+    <title>Courses — Smart Antenna</title>
 
-    <!--
-    FOUC prevention: runs synchronously before the first paint.
-    Reads localStorage first; falls back to the OS preference.
-    Sets data-theme on <html> before any CSS is parsed so the
-    correct token values are used from the very first rendered frame.
-  -->
     <script>
       (function () {
         try {
@@ -28,7 +22,6 @@
       })();
     </script>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -39,16 +32,15 @@
     <link rel="stylesheet" href="/assets/css/reset.css" />
     <link rel="stylesheet" href="/assets/css/variables.css" />
     <link rel="stylesheet" href="/assets/css/main.css" />
+    <link rel="stylesheet" href="/assets/css/courses.css" />
   </head>
   <body>
-    <!-- Dark-mode star field (CSS-only twinkle, visible in dark mode only) -->
     <div class="stars" aria-hidden="true">
       <div class="stars__layer stars__layer--1"></div>
       <div class="stars__layer stars__layer--2"></div>
       <div class="stars__layer stars__layer--3"></div>
     </div>
 
-    <!-- Theme toggle — always visible, highest z-index -->
     <button
       type="button"
       class="theme-toggle"
@@ -58,7 +50,6 @@
     >
       <span class="theme-toggle__track" aria-hidden="true">
         <span class="theme-toggle__thumb">
-          <!-- Sun icon -->
           <svg
             class="theme-toggle__sun"
             viewBox="0 0 24 24"
@@ -139,7 +130,6 @@
               stroke-linecap="round"
             />
           </svg>
-          <!-- Moon icon -->
           <svg
             class="theme-toggle__moon"
             viewBox="0 0 24 24"
@@ -150,23 +140,19 @@
           </svg>
         </span>
       </span>
-      
       <span class="theme-toggle__label">Light</span>
     </button>
-    
-    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-    <header class="site-nav profile-topbar">
-      <div class="container profile-topbar__inner site-nav__inner">
-        <a href="/" class="profile-topbar__brand site-nav__brand">Smart Antenna</a>
-        <nav class="profile-topbar__links site-nav__links" aria-label="Primary navigation">
+    <header class="site-nav courses-topbar">
+      <div class="container courses-topbar__inner site-nav__inner">
+        <a href="/" class="courses-topbar__brand site-nav__brand">Smart Antenna</a>
+        <nav class="courses-topbar__links site-nav__links" aria-label="Primary navigation">
+          <a href="/" class="btn btn--sm">Home</a>
+          <a href="/courses" class="btn btn--sm">Courses</a>
           <% if(user) { %>
-            <a href="/courses" class="btn btn--sm">Courses</a>
             <a href="/profile" class="btn btn--sm">Profile</a>
             <a href="/logout" class="btn btn--sm btn--login">Logout</a>
           <% } else { %>
-            <a href="/courses" class="btn btn--sm">Courses</a>
-            <a href="/profile" class="btn btn--sm">Profile</a>
             <a href="/login" class="btn btn--sm btn--login">Login</a>
           <% } %>
         </nav>
@@ -174,114 +160,92 @@
     </header>
 
     <div class="page">
-      <!-- Ambient background decoration, purely visual -->
       <div class="background-decoration" aria-hidden="true">
         <div class="bg-blur bg-blur--hero"></div>
         <div class="bg-blur bg-blur--lower"></div>
         <div class="bg-gradient bg-gradient--hero-right"></div>
         <div class="bg-gradient bg-gradient--hero-left"></div>
-        <div class="bg-gradient bg-gradient--features-right"></div>
-        <div class="bg-gradient bg-gradient--features-left"></div>
-        <div class="bg-gradient bg-gradient--cta-right"></div>
-        <div class="bg-gradient bg-gradient--cta-left"></div>
       </div>
 
-      <header class="hero">
-        <div class="container hero__container">
-          <div class="hero__content">
-            <h1 class="hero__title">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
-            </h1>
-            <% if(user) { %>
-            <p class="hero__description">
-                Welcome, <%= user.username %>
-            </p>
-            <% } %>
-            <div class="hero__cta-group">
-              <% if(user) { %>
-              <a href="/profile" class="btn btn--signup">View Profile</a>
-              <a href="/courses" class="btn btn--courses">Courses</a>
-              <% }else { %> 
-              <a href="/signup" class="btn btn--signup">Signup</a>
-              <a href="/login" class="btn btn--login">Login</a>
-              <% } %>
+      <main class="courses-container">
+        <div class="courses-hero">
+          <h1 class="courses-hero__title">Explore Our Courses</h1>
+          <p class="courses-hero__description">
+            Learn from industry experts and advance your skills across diverse topics
+          </p>
+        </div>
+
+        <div class="courses-filters">
+          <div class="courses-sidebar">
+            <!-- Course Categories -->
+            <div class="courses-panel">
+              <h3 class="courses-panel__title">All Courses</h3>
+              <div class="courses-panel__content">
+                <div class="courses-list">
+                  <button class="course-item" data-course="machine-learning">Machine Learning & Neural Networks</button>
+                  <button class="course-item" data-course="web-dev">Full-Stack Web Development</button>
+                  <button class="course-item" data-course="prompt-eng">Prompt Engineering for AI</button>
+                  <button class="course-item" data-course="cybersecurity">Cybersecurity Fundamentals</button>
+                  <button class="course-item" data-course="prompt-eng-2">Prompt Engineering for AI</button>
+                  <button class="course-item" data-course="marketing">Digital Marketing Strategy</button>
+                  <button class="course-item" data-course="agile">Agile Project Management</button>
+                  <button class="course-item" data-course="supply-chain">Supply Chain Management</button>
+                  <button class="course-item" data-course="ux-design">User Experience (UX) Design</button>
+                  <button class="course-item" data-course="interior">Interior Design Basics</button>
+                  <button class="course-item" data-course="music">Music Production in Ableton Live</button>
+                  <button class="course-item" data-course="behavioral">Behavioral Economics</button>
+                  <button class="course-item" data-course="psychology">Cognitive Psychology</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skill Level Filter -->
+            <div class="courses-panel">
+              <h3 class="courses-panel__title">Skill Level</h3>
+              <div class="courses-panel__content">
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="high" class="skill-filter" />
+                  <span>High</span>
+                </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="medium" class="skill-filter" />
+                  <span>Medium</span>
+                </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="low" class="skill-filter" />
+                  <span>Low</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Duration Filter -->
+            <div class="courses-panel">
+              <h3 class="courses-panel__title">Duration</h3>
+              <div class="courses-panel__content">
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="1-7" class="duration-filter" />
+                  <span>1-7 Hours</span>
+                </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="1-8" class="duration-filter" />
+                  <span>1-8 Hours</span>
+                </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="1-10" class="duration-filter" />
+                  <span>1-10 Hours</span>
+                </label>
+              </div>
             </div>
           </div>
 
-          <div class="hero__visual">
-            <div class="hero__visual-inner" id="heroVisualInner">
-              <div class="media-frame hero__decoration--top">
-                <img
-                  src="/assets/images/content/hero-decoration-top.png"
-                  alt=""
-                />
-              </div>
-              <div class="media-frame hero__image">
-                <img
-                  src="/assets/images/content/hero-illustration.png"
-                  alt=""
-                />
-              </div>
-              <div class="media-frame hero__decoration--bottom">
-                <img
-                  src="/assets/images/content/hero-decoration-bottom.png"
-                  alt=""
-                />
-              </div>
+          <!-- Courses Grid -->
+          <div class="courses-grid-container">
+            <div class="courses-grid" id="coursesGrid">
+              <!-- Course cards will be generated here -->
             </div>
           </div>
         </div>
-      </header>
-
-      <section class="feature-a reveal" aria-label="Feature highlight">
-        <div class="container feature-a__container">
-          <div class="media-frame feature-a__image">
-            <img src="/assets/images/content/feature-image-left.png" alt="" />
-          </div>
-          <div class="feature-a__content">
-            <h2 class="feature-a__heading-1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
-            </h2>
-            <p class="feature-a__body">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
-            </p>
-            <h2 class="feature-a__heading-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
-            </h2>
-          </div>
-          <div class="media-frame feature-a__image">
-            <img src="/assets/images/content/feature-image-right.png" alt="" />
-          </div>
-        </div>
-      </section>
-
-      <section class="feature-b reveal" aria-label="Feature highlight">
-        <div class="container feature-b__container">
-          <h2 class="feature-b__heading">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            vulputate libero
-          </h2>
-          <div class="media-frame feature-b__image">
-            <img src="/assets/images/content/showcase-image.png" alt="" />
-          </div>
-        </div>
-      </section>
-
-      <section class="feature-c reveal" aria-label="Feature highlight">
-        <div class="container feature-c__container">
-          <h2 class="feature-c__heading">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            vulputate libero
-          </h2>
-          <div class="media-frame feature-c__image">
-            <img src="/assets/images/content/banner-wide.png" alt="" />
-          </div>
-        </div>
-      </section>
+      </main>
 
       <footer class="site-footer" role="contentinfo">
         <div class="container site-footer__container">
@@ -338,52 +302,13 @@
       </footer>
     </div>
 
-    <button
-      type="button"
-      class="back-to-top"
-      id="backToTop"
-      aria-label="Back to top"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M12 19V5" />
-        <path d="M5 12l7-7 7 7" />
-      </svg>
-    </button>
-
     <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/courses.js"></script>
     <script>
-      // If someone is already signed in, swap the CTA buttons for
-      // Profile / Logout instead of Sign up / Login.
-      (function () {
-        var currentUser;
-        try {
-          currentUser = localStorage.getItem("currentUser");
-        } catch (e) {}
-        if (!currentUser) return;
-
-        document.querySelectorAll("a.btn--signup").forEach(function (btn) {
-          btn.textContent = "My Profile";
-          btn.href = "/profile";
-        });
-        document.querySelectorAll("a.btn--login").forEach(function (btn) {
-          btn.textContent = "Logout";
-          btn.href = "#";
-          btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            try {
-              localStorage.removeItem("currentUser");
-            } catch (err) {}
-            window.location.href = "/logout";
-          });
-        });
-      })();
+      try {
+        var yearEl = document.getElementById("year");
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+      } catch (e) {}
     </script>
   </body>
 </html>

@@ -395,7 +395,14 @@
 .auth-nav {
   position: relative;
   z-index: 10;
-  padding-block: var(--space-sm);
+  /* The .theme-toggle pill is fixed top-right (top-left under 480px) and
+     .auth-nav__inner uses space-between, so its links sit right at the
+     container edge — on any viewport narrower than ~1440px that puts them
+     directly under the toggle. Reserve clearance above the links instead
+     of trying to dodge it horizontally, so it clears the pill at every
+     breakpoint regardless of which side the toggle is on. */
+  padding-top: clamp(3.5rem, 3rem + 2vw, 4.5rem);
+  padding-bottom: var(--space-sm);
 }
 
 .auth-nav__inner {

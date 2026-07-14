@@ -25,7 +25,7 @@ const checkUser = (req, res, next) => {
 
     try {
       const userRes = await fetch(
-        "https://smart-antenna-django-backend.onrender.com/api/userinfo/",
+        process.env.DJANGO_USERINFO_URL,
         {
           method: "GET",
           headers: {

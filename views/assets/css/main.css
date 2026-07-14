@@ -223,13 +223,40 @@ body {
   font-size: clamp(1.2rem, 1rem + 0.6vw, 1.4rem);
   color: var(--color-text-heading);
   text-decoration: none;
-  margin-right: -12rem;
 }
 
 .site-nav__links {
   display: flex;
   gap: var(--space-md);
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Below ~720px the absolutely positioned brand starts to collide
+   with the centered nav links once they wrap onto a second row.
+   Drop the brand back into normal flow and stack it above the
+   links so nothing overlaps on phones/small tablets. */
+@media (max-width: 720px) {
+  .site-nav__inner {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  .site-nav__brand {
+    position: static;
+    left: auto;
+  }
+  .site-nav__links {
+    gap: var(--space-xs);
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-nav__links .btn--sm {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
 }
 
 .site-nav__links a {
@@ -287,6 +314,12 @@ body {
 .btn--signup {
   background: whitesmoke;
   color: rgb(4, 4, 77);
+}
+
+
+.btn--courses {
+    background: rgb(4, 4, 77);
+    color: var(--color-text-on-accent);
 }
 
 .hero .btn--logout:hover {
@@ -788,11 +821,28 @@ body {
   margin: 0;
 }
 
+.site-footer__tagline {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--color-text-body);
+  opacity: 0.75;
+  flex: 1 1 auto;
+  min-width: 160px;
+}
+
 .site-footer__meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .site-footer__tagline {
+    text-align: center;
+    flex-basis: 100%;
+    order: 1;
+  }
 }
 
 .site-footer__social-links {
