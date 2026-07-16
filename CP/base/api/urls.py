@@ -6,5 +6,6 @@ urlpatterns=[
     path("login/", views.LoginView.as_view()),
     path('userinfo/',views.userinfo),
     path('upload_pfp/',views.upload_pfp),
-    path('courses/', views.courses, name='course-list'),
+    path('courses/', views.courses),
+    path('categories/', views.categories),
 ]

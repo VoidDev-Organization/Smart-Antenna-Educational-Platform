@@ -17,7 +17,7 @@ from PIL import Image
 
 import cloudinary.uploader
 
-from base.models import Courses
+from base.models import *
 
 
 ALLOWED_EXTENSIONS = {
@@ -208,6 +208,16 @@ def courses(request):
             "category_name": course.category.category_name,
             "created_at": course.created_at,
             "updated_at": course.updated_at
+        })
+    return Response(data)
+
+@api_view(["GET"])
+def categories(request):
+    categories = Categories.objects.all()
+    data = []
+    for category in categories:
+        data.append({
+            "category_name": category.category_name,
         })
     return Response(data)
 
