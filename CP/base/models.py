@@ -6,11 +6,14 @@ from cloudinary.models import CloudinaryField
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     enrollments = models.ManyToManyField('Enrollments', related_name='users', blank=True)
-    role = models.CharField(max_length=50, default='student')
+    roles = models.CharField(max_length=50, choices=[('student', 'Student'), ('lecturer', 'Lecturer')], default='student')
     
     pfp = CloudinaryField('image', null=True, blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    
+    def __str__(self):
+        return self.username
 
 
 
@@ -24,7 +27,12 @@ class Courses(models.Model):
     course_name = models.CharField(max_length=100)
     course_description = models.TextField()
     image = CloudinaryField('image', null=True, blank=True)
-    lecturer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
+    lecturer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='courses',
+        limit_choices_to={'roles': 'lecturer'}
+    )
     duration = models.IntegerField(help_text="Duration in hours")
     skill_level = models.CharField(max_length=50, choices=[('Beginner', 'Beginner'), ('Intermediate', 'Intermediate'), ('Advanced', 'Advanced')])
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='category_courses')
