@@ -13,6 +13,7 @@ class LectureInline(admin.TabularInline):
 @admin.register(Courses)
 class CoursesAdmin(admin.ModelAdmin):
     inlines = [LectureInline]
+    change_form_template = 'admin/base/courses/change_form.html'
     list_display = ('course_name', 'lecturer', 'number_of_lectures', 'created_at')
     search_fields = ('course_name', 'lecturer__username')
 
@@ -20,4 +21,3 @@ class CoursesAdmin(admin.ModelAdmin):
 admin.site.register(User)
 admin.site.register(Categories)
 admin.site.register(Enrollments)
-admin.site.register(Lecture)

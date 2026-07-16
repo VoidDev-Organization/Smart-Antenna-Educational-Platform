@@ -72,6 +72,8 @@ class Lecture(models.Model):
     class Meta:
         ordering = ['lecture_number']
         unique_together = ('course', 'lecture_number')
+        verbose_name = 'Lecture'
+        verbose_name_plural = 'Lectures'
 
     def __str__(self):
         return f"Lecture {self.lecture_number} - {self.course.course_name}"
