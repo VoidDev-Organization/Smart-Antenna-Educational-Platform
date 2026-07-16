@@ -6,6 +6,7 @@ from cloudinary.models import CloudinaryField
 class User(AbstractUser):
     email = models.EmailField(unique=True)
     enrollments = models.ManyToManyField('Enrollments', related_name='users', blank=True)
+    roles = models.CharField(max_length=50, choices=[('student', 'Student'), ('lecturer', 'Lecturer')], default='student')
     
     pfp = CloudinaryField('image', null=True, blank=True)
     USERNAME_FIELD = 'email'
