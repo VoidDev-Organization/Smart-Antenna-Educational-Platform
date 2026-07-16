@@ -17,6 +17,8 @@ from PIL import Image
 
 import cloudinary.uploader
 
+from base.models import Courses
+
 
 ALLOWED_EXTENSIONS = {
     "png",
@@ -182,3 +184,30 @@ def upload_pfp(request):
             },
             status=500
         )
+        
+        
+@api_view(["GET"])
+def courses(request):
+    courses = Courses.objects.all()
+    data = []
+    for course in courses:
+        data.append({
+            "id": course.id,
+            "course_name": course.course_name,
+            "course_description": course.course_description,
+            "image": course.image.url if course.image else None,
+            "lecturer": {
+                "id": course.lecturer.id,
+                "username": course.lecturer.username,
+                "email": course.lecturer.email,
+                "first_name": course.lecturer.first_name,
+                "last_name": course.lecturer.last_name,
+            },
+            "duration": course.duration,
+            "skill_level": course.skill_level,
+            "category_name": course.category.category_name,
+            "created_at": course.created_at,
+            "updated_at": course.updated_at
+        })
+    return Response(data)
+
