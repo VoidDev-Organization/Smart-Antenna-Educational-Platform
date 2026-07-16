@@ -20,3 +20,4 @@ class CoursesAdmin(admin.ModelAdmin):
 admin.site.register(User)
 admin.site.register(Categories)
 admin.site.register(Enrollments)
+admin.site.register(Lecture)
