@@ -1,9 +1,22 @@
 from django.contrib import admin
-from .models import *
+from .models import Categories, Courses, Enrollments, Lecture, User
 
-# Register your models here.
+
+class LectureInline(admin.TabularInline):
+    model = Lecture
+    extra = 0
+    fields = ('lecture_number', 'lecture_name', 'pdf_file', 'meeting_link')
+    readonly_fields = ('lecture_number',)
+    classes = ['collapse']
+
+
+@admin.register(Courses)
+class CoursesAdmin(admin.ModelAdmin):
+    inlines = [LectureInline]
+    list_display = ('course_name', 'lecturer', 'number_of_lectures', 'created_at')
+    search_fields = ('course_name', 'lecturer__username')
+
 
 admin.site.register(User)
-admin.site.register(Courses)
 admin.site.register(Categories)
 admin.site.register(Enrollments)
