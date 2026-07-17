@@ -26,9 +26,10 @@
   padding-block: var(--space-xs);
   flex-wrap: wrap;
   position: relative;
-  max-width: var(--container-width);
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding-inline: var(--container-padding);
+  padding-inline: clamp(16px, 2.5vw, 48px);
 }
 
 .courses-topbar__brand {
@@ -128,9 +129,10 @@
   padding-top: clamp(80px, 12vw, 120px);
   padding-bottom: var(--space-xl);
   position: relative;
-  max-width: var(--container-width);
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
-  padding-inline: var(--container-padding);
+  padding-inline: clamp(16px, 2.5vw, 48px);
 }
 
 .courses-hero {

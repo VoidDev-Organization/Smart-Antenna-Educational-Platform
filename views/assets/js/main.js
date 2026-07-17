@@ -7,6 +7,19 @@
 (function () {
   "use strict";
 
+  /* -------------------------------------------------------
+     Theme toggle placement
+     Keep the control with the primary navigation instead of
+     floating independently over the page.
+     ------------------------------------------------------- */
+  (function placeThemeToggleInNavigation() {
+    var toggle = document.getElementById("themeToggle");
+    var navLinks = document.querySelector(".site-nav__links");
+    if (!toggle || !navLinks) return;
+
+    navLinks.appendChild(toggle);
+  })();
+
   var prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;

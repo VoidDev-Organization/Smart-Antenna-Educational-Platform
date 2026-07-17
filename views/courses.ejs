@@ -179,22 +179,9 @@
           <div class="courses-sidebar">
             <!-- Course Categories -->
             <div class="courses-panel">
-              <h3 class="courses-panel__title">All Courses</h3>
+              <h3 class="courses-panel__title">Course Category</h3>
               <div class="courses-panel__content">
                 <div class="courses-list">
-                  <button class="course-item" data-course="machine-learning">Machine Learning & Neural Networks</button>
-                  <button class="course-item" data-course="web-dev">Full-Stack Web Development</button>
-                  <button class="course-item" data-course="prompt-eng">Prompt Engineering for AI</button>
-                  <button class="course-item" data-course="cybersecurity">Cybersecurity Fundamentals</button>
-                  <button class="course-item" data-course="prompt-eng-2">Prompt Engineering for AI</button>
-                  <button class="course-item" data-course="marketing">Digital Marketing Strategy</button>
-                  <button class="course-item" data-course="agile">Agile Project Management</button>
-                  <button class="course-item" data-course="supply-chain">Supply Chain Management</button>
-                  <button class="course-item" data-course="ux-design">User Experience (UX) Design</button>
-                  <button class="course-item" data-course="interior">Interior Design Basics</button>
-                  <button class="course-item" data-course="music">Music Production in Ableton Live</button>
-                  <button class="course-item" data-course="behavioral">Behavioral Economics</button>
-                  <button class="course-item" data-course="psychology">Cognitive Psychology</button>
                 </div>
               </div>
             </div>
@@ -205,15 +192,15 @@
               <div class="courses-panel__content">
                 <label class="filter-checkbox">
                   <input type="checkbox" value="high" class="skill-filter" />
-                  <span>High</span>
+                  <span>Advanced</span>
                 </label>
                 <label class="filter-checkbox">
                   <input type="checkbox" value="medium" class="skill-filter" />
-                  <span>Medium</span>
+                  <span>Intermediate</span>
                 </label>
                 <label class="filter-checkbox">
                   <input type="checkbox" value="low" class="skill-filter" />
-                  <span>Low</span>
+                  <span>Beginner</span>
                 </label>
               </div>
             </div>
@@ -223,16 +210,16 @@
               <h3 class="courses-panel__title">Duration</h3>
               <div class="courses-panel__content">
                 <label class="filter-checkbox">
-                  <input type="checkbox" value="1-7" class="duration-filter" />
-                  <span>1-7 Hours</span>
-                </label>
-                <label class="filter-checkbox">
-                  <input type="checkbox" value="1-8" class="duration-filter" />
-                  <span>1-8 Hours</span>
-                </label>
-                <label class="filter-checkbox">
                   <input type="checkbox" value="1-10" class="duration-filter" />
                   <span>1-10 Hours</span>
+                </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="11-20" class="duration-filter" />
+                  <span>10-20 Hours</span>
+                </label>
+                <label class="filter-checkbox">
+                  <input type="checkbox" value="21-30" class="duration-filter" />
+                  <span>20-30 Hours</span>
                 </label>
               </div>
             </div>
@@ -305,6 +292,7 @@
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/courses.js"></script>
     <script>
+      
       try {
         var yearEl = document.getElementById("year");
         if (yearEl) yearEl.textContent = new Date().getFullYear();

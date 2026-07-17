@@ -84,8 +84,8 @@
   --radius-card: 20px;
 
   /* Layout */
-  --container-width: 1280px;
-  --container-padding: clamp(20px, 5vw, 80px);
+  --container-width: 100%;
+  --container-padding: clamp(16px, 2.5vw, 48px);
 
   /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

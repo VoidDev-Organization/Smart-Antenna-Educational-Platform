@@ -169,6 +169,21 @@ app.post("/pfpimg", async (req, res) => {
 
 });
 
+
+app.get("/coursesInfo", async(req, res) => { 
+        const CoursesRes = await fetch(process.env.DJANGO_COURSES_URL,
+         {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        },
+    );
+
+  const coursesData = await CoursesRes.json();
+  res.json(coursesData);
+});
+
 app.get("/logout", (req, res) => {
   res.clearCookie("jwt", { path: "/" });
   return res.redirect("/");
