@@ -235,6 +235,7 @@ def lectures(request, course_id):
         data.append({
             "lecture_number": lecture.lecture_number,
             "lecture_name": lecture.lecture_name,
+            "lecture_description": lecture.lecture_description,
         })
     return Response(data)
 
