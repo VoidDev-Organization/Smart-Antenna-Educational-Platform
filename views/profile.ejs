@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="/assets/css/variables.css" />
   <link rel="stylesheet" href="/assets/css/main.css" />
   <link rel="stylesheet" href="/assets/css/profile.css" />
+  <link rel="stylesheet" href="/assets/css/refresh.css" />
 </head>
 
 <body>
@@ -110,7 +111,7 @@
                   <% if (user) { %>
                     <img class="profile-identity__avatar" id="avatarImg" src="<%= user.pfp ? user.pfp : "/assets/images/default-avatar.png" %>"
                       alt="Profile picture" />
-                  
+
                   <input type="file" id="file-input" accept="image/*" style="display: none;">
                 </div>
                 <div class="profile-identity__body">

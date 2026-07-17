@@ -380,7 +380,7 @@ body {
 .btn--login,
 .btn--logout {
   background: rgb(4, 4, 77);
-  color: var(--color-text-on-accent);
+  color: white;
 }
 
 .btn--signup {

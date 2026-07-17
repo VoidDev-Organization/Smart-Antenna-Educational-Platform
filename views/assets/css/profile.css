@@ -479,7 +479,7 @@
    on the site. This modifier only overrides the color. */
 .btn--logout {
   background: rgb(4, 4, 77);
-  color: var(--color-text-on-accent);
+  color: white;
   width: 100%;
   border: none;
   min-height: 48px;

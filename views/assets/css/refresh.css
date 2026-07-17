@@ -1,0 +1,177 @@
+/*
+  Smart anTenna visual refresh
+  This file intentionally layers on top of the original styles: page structure,
+  illustrations, controls, and all existing class names remain untouched.
+*/
+
+:root {
+  --color-bg: #f5f7fb;
+  --color-accent: #14b8a6;
+  --color-text-heading: #0f172a;
+  --color-text-body: #334155 ;
+  --color-glass-border: #e2e8f0;
+  --color-glass-bg: #ffffff;
+  --radius-card: 16px;
+  --shadow-button: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 20px rgba(15, 23, 42, 0.05);
+  --shadow-button-hover: 0 12px 25px rgba(15, 23, 42, 0.1);
+  --shadow-card: 0 14px 30px rgba(15, 23, 42, 0.07);
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #0f172a;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #60a5fa;
+  --color-accent: #06b6d4;
+  --color-text-heading: #f8fafc;
+  --color-text-body: #cbd5e1;
+  --color-glass-bg: #1e293b;
+  --color-glass-border: #475569;
+  --color-overlay-light: #334155;
+  --color-overlay-dark: rgba(148, 163, 184, 0.12);
+  --color-cta-bg: #334155;
+  --shadow-button: 0 1px 2px rgba(0, 0, 0, 0.25), 0 12px 24px rgba(0, 0, 0, 0.18);
+  --shadow-button-hover: 0 16px 30px rgba(0, 0, 0, 0.28);
+  --shadow-card: 0 18px 35px rgba(0, 0, 0, 0.2);
+}
+
+html { scroll-behavior: smooth; }
+
+body,
+.page {
+  background-color: var(--color-bg);
+}
+
+/* Replace the original soft circles with a restrained workspace grid. */
+.bg-blur,
+.bg-gradient {
+  display: none;
+}
+
+.background-decoration {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-glass-border) 52%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-glass-border) 52%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  opacity: 0.42;
+}
+
+:root[data-theme="dark"] .background-decoration {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+  opacity: 0.28;
+}
+
+.site-nav,
+.courses-topbar,
+.profile-topbar {
+  background: color-mix(in srgb, var(--color-glass-bg) 92%, transparent);
+  border-color: var(--color-glass-border);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.03);
+}
+
+.site-nav__brand,
+.courses-topbar__brand,
+.profile-topbar__brand {
+  letter-spacing: -0.03em;
+}
+
+.btn {
+  border-radius: 10px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.btn--signup,
+.btn--login {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn:hover,
+.course-card:hover,
+.profile-card:hover,
+.auth__card:hover {
+  transform: translateY(-3px);
+}
+
+.background-decoration::before,
+.background-decoration::after {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: clamp(52px, 7vw, 84px);
+  aspect-ratio: 1;
+  border: 1px solid var(--color-glass-border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--color-glass-bg) 85%, transparent);
+  box-shadow: var(--shadow-card);
+  color: var(--color-primary);
+  font-size: clamp(1.45rem, 2.2vw, 2rem);
+  opacity: 0.72;
+}
+
+.background-decoration::before {
+  content: "📚";
+  top: 15%;
+  right: 8%;
+  transform: rotate(8deg);
+}
+
+.background-decoration::after {
+  content: "💻";
+  left: 7%;
+  bottom: 13%;
+  transform: rotate(-8deg);
+}
+
+.hero__title,
+.courses-hero__title,
+.feature-a__heading-1,
+.feature-b__heading,
+.feature-c__heading {
+  letter-spacing: -0.035em;
+}
+
+.media-frame,
+.courses-panel,
+.course-card,
+.profile-card,
+.auth__card {
+  border-color: var(--color-glass-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.course-card,
+.profile-card,
+.auth__card {
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), border-color 0.2s ease, var(--theme-transition);
+}
+
+.course-card:hover,
+.profile-card:hover,
+.auth__card:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-glass-border));
+  box-shadow: var(--shadow-button-hover);
+}
+
+.course-card__cta,
+.auth__submit {
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.filter-checkbox input,
+.auth__remember input[type="checkbox"] { accent-color: var(--color-primary); }
+
+@media (max-width: 700px) {
+  .background-decoration::before,
+  .background-decoration::after { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}
