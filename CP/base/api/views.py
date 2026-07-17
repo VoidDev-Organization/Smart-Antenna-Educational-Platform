@@ -203,6 +203,7 @@ def courses(request):
                 "first_name": course.lecturer.first_name,
                 "last_name": course.lecturer.last_name,
             },
+            "number_of_lectures": course.number_of_lectures,
             "duration": course.duration,
             "skill_level": course.skill_level,
             "category_name": course.category.category_name,
@@ -219,5 +220,42 @@ def categories(request):
         data.append({
             "category_name": category.category_name,
         })
+    return Response(data)
+
+@api_view(["GET"])
+def lectures(request, course_id):
+    try:
+        course = Courses.objects.get(id=course_id)
+    except Courses.DoesNotExist:
+        return Response({"error": "Course not found."}, status=404)
+
+    lectures = course.lectures.all().order_by('lecture_number')
+    data = []
+    for lecture in lectures:
+        data.append({
+            "lecture_number": lecture.lecture_number,
+            "lecture_name": lecture.lecture_name,
+        })
+    return Response(data)
+
+@api_view(["GET"])
+def lecture_detail(request, course_id, lecture_number):
+    try:
+        course = Courses.objects.get(id=course_id)
+    except Courses.DoesNotExist:
+        return Response({"error": "Course not found."}, status=404)
+
+    try:
+        lecture = course.lectures.get(lecture_number=lecture_number)
+    except Lecture.DoesNotExist:
+        return Response({"error": "Lecture not found."}, status=404)
+
+    data = {
+        "lecture_number": lecture.lecture_number,
+        "lecture_name": lecture.lecture_name,
+        "lecture_description": lecture.lecture_description,
+        "pdf_file": lecture.pdf_file.url if lecture.pdf_file else None,
+        "meeting_link": lecture.meeting_link,
+    }
     return Response(data)
 

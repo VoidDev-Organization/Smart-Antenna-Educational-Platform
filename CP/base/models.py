@@ -66,6 +66,7 @@ class Lecture(models.Model):
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='lectures')
     lecture_number = models.PositiveIntegerField(default=1)
     lecture_name = models.CharField(max_length=255, blank=True)
+    lecture_description = models.TextField(blank=True)
     pdf_file = models.FileField(upload_to='course_lectures/pdfs/', blank=True, null=True)
     meeting_link = models.URLField(blank=True)
 

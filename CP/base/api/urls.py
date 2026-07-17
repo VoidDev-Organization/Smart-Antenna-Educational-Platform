@@ -8,4 +8,6 @@ urlpatterns=[
     path('upload_pfp/',views.upload_pfp),
     path('courses/', views.courses),
     path('categories/', views.categories),
+    path('lectures/<int:course_id>/', views.lectures),
+    path('lecture_detail/<int:course_id>/<int:lecture_number>/', views.lecture_detail),
 ]
