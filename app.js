@@ -42,7 +42,49 @@ app.get("/profile", (req, res) => {
   return res.render("profile", { user: res.locals.user || null });
 });
 
+app.get("/categories", async (req, res) => {
 
+    const categoriesRes = await fetch(process.env.DJANGO_CATEGORIES_URL, {
+               
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        },
+    );
+
+  const categoriesData = await categoriesRes.json();
+  res.json(categoriesData);
+});
+
+
+
+
+
+
+app.get("/coursesInfo", async(req, res) => { 
+        const coursesRes = await fetch(process.env.DJANGO_COURSES_URL,
+         {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        },
+    );
+
+  const coursesData = await coursesRes.json();
+  res.json(coursesData);
+});
+
+app.get("/course-detail", async(req, res) => {
+res.render("course-detail");
+}
+);
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("jwt", { path: "/" });
+  return res.redirect("/");
+});
 
 
 // post routes
@@ -167,24 +209,4 @@ app.post("/pfpimg", async (req, res) => {
 
     }
 
-});
-
-
-app.get("/coursesInfo", async(req, res) => { 
-        const CoursesRes = await fetch(process.env.DJANGO_COURSES_URL,
-         {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-          },
-        },
-    );
-
-  const coursesData = await CoursesRes.json();
-  res.json(coursesData);
-});
-
-app.get("/logout", (req, res) => {
-  res.clearCookie("jwt", { path: "/" });
-  return res.redirect("/");
 });

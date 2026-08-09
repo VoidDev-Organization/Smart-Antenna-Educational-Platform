@@ -1,34 +1,9 @@
-const getCategories = async () => {
-
-  try{
-    const res = await fetch("https://smart-antenna-django-backend.onrender.com/api/categories/");
-    const categories = await res.json();
-    console.log("Fetched categories:", categories);
-
-    const categoriesContainer = document.querySelector(".courses-list");
-
-
-
-      categories.forEach((category) => {
-        categoriesContainer.innerHTML += `
-          <button class="course-item" data-course="${category.category_name}">
-            ${category.category_name}
-          </button>
-        `;
-      });
-    
-
-  }catch(error) {
-    console.log(error);
-
-  }
-} 
 
 const courseRun = async () => {
   try {
     // 1. Fetch BOTH categories and courses in parallel to save time
     const [categoriesRes, coursesRes] = await Promise.all([
-      fetch("https://smart-antenna-django-backend.onrender.com/api/categories/"),
+      fetch("/categories"),
       fetch("/coursesInfo")
     ]);
 
@@ -194,6 +169,7 @@ const courseRun = async () => {
 
       card.querySelector(".course-card__cta").addEventListener("click", () => {
         console.log("Course clicked:", course);
+        window.location.href = `/course-detail?id=${course.id}`;
       });
 
       return card;
@@ -215,5 +191,3 @@ courseRun();
 
 
 
-courseRun();
-getCategories();
