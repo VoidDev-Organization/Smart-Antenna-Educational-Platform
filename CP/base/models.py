@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from cloudinary.models import CloudinaryField
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 
 
 class User(AbstractUser):
@@ -67,7 +68,12 @@ class Lecture(models.Model):
     lecture_number = models.PositiveIntegerField(default=1)
     lecture_name = models.CharField(max_length=255, blank=True)
     lecture_description = models.TextField(blank=True)
-    pdf_file = models.FileField(upload_to='course_lectures/pdfs/', blank=True, null=True)
+    pdf_file = models.FileField(
+    upload_to='pdfs/',
+    storage=RawMediaCloudinaryStorage(),
+    max_length=255,
+    blank=True,
+    null=True)
     meeting_link = models.URLField(blank=True)
 
     class Meta:
