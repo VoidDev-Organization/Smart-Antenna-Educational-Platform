@@ -232,7 +232,6 @@ def categories(request):
 
 @ratelimit(key='user', rate='100/m', block=True)
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
 def lectures(request, course_id):
     # if request.user.roles == 'student':
     #     enrolled_courses = request.user.enrolled_courses.all()
