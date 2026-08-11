@@ -6,7 +6,6 @@
 
 
 
-
 :root {
   --color-bg: #f5f7fb;
   --color-accent: #14b8a6;
@@ -43,7 +42,8 @@ body,
 .page {
   background-color: var(--color-bg);
 }
- 
+
+/* Replace the original soft circles with a restrained workspace grid. */
 .bg-blur,
 .bg-gradient {
   display: none;
@@ -177,4 +177,5 @@ body,
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; }
 }
+
 

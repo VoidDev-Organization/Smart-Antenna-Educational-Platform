@@ -44,6 +44,8 @@ app.get("/profile", (req, res) => {
 
 app.get("/categories", async (req, res) => {
 
+  try{
+
     const categoriesRes = await fetch(process.env.DJANGO_CATEGORIES_URL, {
                
           method: "GET",
@@ -55,6 +57,10 @@ app.get("/categories", async (req, res) => {
 
   const categoriesData = await categoriesRes.json();
   res.json(categoriesData);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ Error: error.message || "Failed to fetch categories" });
+  }
 });
 
 
@@ -63,6 +69,7 @@ app.get("/categories", async (req, res) => {
 
 
 app.get("/coursesInfo", async(req, res) => { 
+  try{
         const coursesRes = await fetch(process.env.DJANGO_COURSES_URL,
          {
           method: "GET",
@@ -74,6 +81,30 @@ app.get("/coursesInfo", async(req, res) => {
 
   const coursesData = await coursesRes.json();
   res.json(coursesData);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ Error: error.message || "Failed to fetch courses" });
+  }
+});
+
+app.post("/lecturesInfo", async(req, res) => { 
+  try{
+        const courseID = req.body.courseID;
+        const lecturesRes = await fetch(process.env.DJANGO_LECTURES_URL+courseID,
+         {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        },
+    );
+
+  const lecturesData = await lecturesRes.json();
+  res.json(lecturesData);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ Error: error.message || "Failed to fetch lectures" });
+  }
 });
 
 app.get("/course-detail", async(req, res) => {
@@ -106,7 +137,11 @@ app.post("/login", async (req, res) => {
 
     const data = await backendRes.json();
     const token = data.access;
+    console.log(data);
 
+    if(data.detail){
+      return res.status(401).json({ message: data.detail });
+    }
     if (!token) {
       return res
         .status(401)
@@ -121,7 +156,7 @@ app.post("/login", async (req, res) => {
     return res.status(200).json({ message: "Login successful" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Login failed" });
+    return res.status(500).json({Error: error.message || "Login failed" });
   }
 });
 
@@ -149,7 +184,7 @@ app.post("/signup", async (req, res) => {
     return res.status(200).json({ message: "Signup successful" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Signup failed" });
+    return res.status(500).json({ Error: error.message || "Signup failed" });
   }
 });
 
@@ -197,15 +232,13 @@ app.post("/pfpimg", async (req, res) => {
             return res.status(response.status).json(data);
         }
 
-        res.json(data);
+        return res.json(data);
 
-    } catch (err) {
+    } catch (error) {
 
-        console.error(err);
+        console.error(error);
 
-        res.status(500).json({
-            error: "Server error"
-        });
+        res.status(500).json({ Error: error.message || "Failed to upload profile picture" });
 
     }
 

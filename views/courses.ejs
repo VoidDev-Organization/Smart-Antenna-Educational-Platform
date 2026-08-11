@@ -149,7 +149,6 @@
         <a href="/" class="courses-topbar__brand site-nav__brand">Smart Antenna</a>
         <nav class="courses-topbar__links site-nav__links" aria-label="Primary navigation">
           <a href="/" class="btn btn--sm">Home</a>
-          <a href="/courses" class="btn btn--sm">Courses</a>
           <% if(user) { %>
             <a href="/profile" class="btn btn--sm">Profile</a>
             <a href="/logout" class="btn btn--sm btn--login">Logout</a>
@@ -206,21 +205,21 @@
               </div>
             </div>
 
-            <!-- Duration Filter -->
+            <!-- Lecture Count Filter -->
             <div class="courses-panel">
-              <h3 class="courses-panel__title">Duration</h3>
+              <h3 class="courses-panel__title">Number of Lectures</h3>
               <div class="courses-panel__content">
                 <label class="filter-checkbox">
-                  <input type="checkbox" value="1-10" class="duration-filter" />
-                  <span>1-10 Hours</span>
+                  <input type="checkbox" value="1-3" class="lecture-count-filter" />
+                  <span>1-3 Lectures</span>
                 </label>
                 <label class="filter-checkbox">
-                  <input type="checkbox" value="11-20" class="duration-filter" />
-                  <span>10-20 Hours</span>
+                  <input type="checkbox" value="4-7" class="lecture-count-filter" />
+                  <span>4-7 Lectures</span>
                 </label>
                 <label class="filter-checkbox">
-                  <input type="checkbox" value="21-30" class="duration-filter" />
-                  <span>20-30 Hours</span>
+                  <input type="checkbox" value="8-10" class="lecture-count-filter" />
+                  <span>8-10 Lectures</span>
                 </label>
               </div>
             </div>
@@ -293,8 +292,7 @@
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/courses.js"></script>
     <script>
-
-     
+      
       try {
         var yearEl = document.getElementById("year");
         if (yearEl) yearEl.textContent = new Date().getFullYear();
