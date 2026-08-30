@@ -224,7 +224,7 @@
 .profile-identity__name {
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: clamp(1.4rem, 5vw, 2rem);
+  font-size: clamp(1.7rem, 5vw, 2.5rem);
   color: var(--color-text-heading);
   overflow-wrap: anywhere;
   line-height: 1.2;
@@ -232,14 +232,14 @@
 
 .profile-identity__email {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
   color: var(--color-text-body);
   overflow-wrap: anywhere;
 }
 
 .profile-identity__joined {
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   color: var(--color-text-body);
   opacity: 0.75;
 }

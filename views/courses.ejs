@@ -42,118 +42,122 @@
       <div class="stars__layer stars__layer--3"></div>
     </div>
 
-    <button
-      type="button"
-      class="theme-toggle"
-      id="themeToggle"
-      aria-label="Switch to dark mode"
-      aria-pressed="false"
-    >
-      <span class="theme-toggle__track" aria-hidden="true">
-        <span class="theme-toggle__thumb">
-          <svg
-            class="theme-toggle__sun"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="5" />
-            <line
-              x1="12"
-              y1="1"
-              x2="12"
-              y2="3"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="12"
-              y1="21"
-              x2="12"
-              y2="23"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="4.22"
-              y1="4.22"
-              x2="5.64"
-              y2="5.64"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="18.36"
-              y1="18.36"
-              x2="19.78"
-              y2="19.78"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="1"
-              y1="12"
-              x2="3"
-              y2="12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="21"
-              y1="12"
-              x2="23"
-              y2="12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="4.22"
-              y1="19.78"
-              x2="5.64"
-              y2="18.36"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="18.36"
-              y1="5.64"
-              x2="19.78"
-              y2="4.22"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-          <svg
-            class="theme-toggle__moon"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
+    <div class="control-cluster" id="headerControls">
+      <button
+        type="button"
+        class="theme-toggle"
+        id="themeToggle"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <span class="theme-toggle__track" aria-hidden="true">
+          <span class="theme-toggle__thumb">
+            <svg
+              class="theme-toggle__sun"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line
+                x1="12"
+                y1="1"
+                x2="12"
+                y2="3"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="12"
+                y1="21"
+                x2="12"
+                y2="23"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="4.22"
+                y1="4.22"
+                x2="5.64"
+                y2="5.64"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18.36"
+                y1="18.36"
+                x2="19.78"
+                y2="19.78"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="1"
+                y1="12"
+                x2="3"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="21"
+                y1="12"
+                x2="23"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="4.22"
+                y1="19.78"
+                x2="5.64"
+                y2="18.36"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18.36"
+                y1="5.64"
+                x2="19.78"
+                y2="4.22"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <svg
+              class="theme-toggle__moon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
         </span>
-      </span>
-      <span class="theme-toggle__label">Light</span>
-    </button>
+        <span class="theme-toggle__label">Light</span>
+      </button>
+
+      <button type="button" class="language-toggle" id="langToggle" aria-label="Switch language to Arabic" aria-pressed="false">EN</button>
+    </div>
 
     <header class="site-nav courses-topbar">
       <div class="container courses-topbar__inner site-nav__inner">
         <a href="/" class="courses-topbar__brand site-nav__brand">Smart Antenna</a>
         <nav class="courses-topbar__links site-nav__links" aria-label="Primary navigation">
-          <a href="/" class="btn btn--sm">Home</a>
+          <a href="/" class="btn btn--sm" data-i18n="nav.home">Home</a>
           <% if(user) { %>
-            <a href="/profile" class="btn btn--sm">Profile</a>
-            <a href="/logout" class="btn btn--sm btn--login">Logout</a>
+            <a href="/profile" class="btn btn--sm" data-i18n="nav.profile">Profile</a>
+            <a href="/logout" class="btn btn--sm btn--login" data-i18n="nav.logout">Logout</a>
           <% } else { %>
-            <a href="/login" class="btn btn--sm btn--login">Login</a>
+            <a href="/login" class="btn btn--sm btn--login" data-i18n="nav.login">Login</a>
           <% } %>
         </nav>
       </div>
@@ -169,8 +173,8 @@
 
       <main class="courses-container">
         <div class="courses-hero">
-          <h1 class="courses-hero__title">Explore Our Courses</h1>
-          <p class="courses-hero__description">
+          <h1 class="courses-hero__title" data-i18n="courses.heroTitle">Explore Our Courses</h1>
+          <p class="courses-hero__description" data-i18n="courses.heroDescription">
             Learn from industry experts and advance your skills across diverse topics
           </p>
         </div>
@@ -179,7 +183,7 @@
           <div class="courses-sidebar">
             <!-- Course Categories -->
             <div class="courses-panel">
-              <h3 class="courses-panel__title">Course Category</h3>
+              <h3 class="courses-panel__title" data-i18n="courses.category">Course Category</h3>
               <div class="courses-panel__content">
                 <div class="courses-list">
                 </div>
@@ -188,38 +192,38 @@
 
             <!-- Skill Level Filter -->
             <div class="courses-panel">
-              <h3 class="courses-panel__title">Skill Level</h3>
+              <h3 class="courses-panel__title" data-i18n="courses.level">Skill Level</h3>
               <div class="courses-panel__content">
                 <label class="filter-checkbox">
                   <input type="checkbox" value="high" class="skill-filter" />
-                  <span>Advanced</span>
+                  <span data-i18n="courses.advanced">Advanced</span>
                 </label>
                 <label class="filter-checkbox">
                   <input type="checkbox" value="medium" class="skill-filter" />
-                  <span>Intermediate</span>
+                  <span data-i18n="courses.intermediate">Intermediate</span>
                 </label>
                 <label class="filter-checkbox">
                   <input type="checkbox" value="low" class="skill-filter" />
-                  <span>Beginner</span>
+                  <span data-i18n="courses.beginner">Beginner</span>
                 </label>
               </div>
             </div>
 
             <!-- Lecture Count Filter -->
             <div class="courses-panel">
-              <h3 class="courses-panel__title">Number of Lectures</h3>
+              <h3 class="courses-panel__title" data-i18n="courses.lectures">Number of Lectures</h3>
               <div class="courses-panel__content">
                 <label class="filter-checkbox">
                   <input type="checkbox" value="1-3" class="lecture-count-filter" />
-                  <span>1-3 Lectures</span>
+                  <span data-i18n="courses.lectures1_3">1-3 Lectures</span>
                 </label>
                 <label class="filter-checkbox">
                   <input type="checkbox" value="4-7" class="lecture-count-filter" />
-                  <span>4-7 Lectures</span>
+                  <span data-i18n="courses.lectures4_7">4-7 Lectures</span>
                 </label>
                 <label class="filter-checkbox">
                   <input type="checkbox" value="8-10" class="lecture-count-filter" />
-                  <span>8-10 Lectures</span>
+                  <span data-i18n="courses.lectures8_10">8-10 Lectures</span>
                 </label>
               </div>
             </div>
@@ -277,8 +281,8 @@
             </nav>
 
             <div class="site-footer__legal-links">
-              <a href="#" class="site-footer__link">Terms &amp; Conditions</a>
-              <a href="#" class="site-footer__link">Privacy Policy</a>
+              <a href="#" class="site-footer__link" data-i18n="index.terms">Terms &amp; Conditions</a>
+              <a href="#" class="site-footer__link" data-i18n="index.privacy">Privacy Policy</a>
             </div>
           </div>
 

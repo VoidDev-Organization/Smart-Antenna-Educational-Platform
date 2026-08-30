@@ -41,33 +41,37 @@
     <div class="stars__layer stars__layer--3"></div>
   </div>
 
-  <button
-    type="button"
-    class="theme-toggle"
-    id="themeToggle"
-    aria-label="Switch to dark mode"
-    aria-pressed="false"
-  >
-    <span class="theme-toggle__track" aria-hidden="true">
-      <span class="theme-toggle__thumb">
-        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
+  <div class="control-cluster" id="headerControls">
+    <button
+      type="button"
+      class="theme-toggle"
+      id="themeToggle"
+      aria-label="Switch to dark mode"
+      aria-pressed="false"
+    >
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb">
+          <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
       </span>
-    </span>
-    <span class="theme-toggle__label">Light</span>
-  </button>
+      <span class="theme-toggle__label">Light</span>
+    </button>
+
+    <button type="button" class="language-toggle" id="langToggle" aria-label="Switch language to Arabic" aria-pressed="false">EN</button>
+  </div>
 
   <div class="page">
     <div class="background-decoration" aria-hidden="true">
@@ -94,7 +98,6 @@
       <div class="container auth__container">
         <div class="auth__intro">
           <h1 class="auth__title">Create your account</h1>
-          <h2 class="auth__title auth__title--muted">Join Smart Antenna — professional learning, built for results</h2>
           <p class="auth__description">
             Use a valid email and a strong password. We'll never share your information — all fields are required.
           </p>

@@ -144,7 +144,6 @@ const courseRun = async () => {
 
     function renderCourses(courses) {
       const grid = document.getElementById("coursesGrid");
-      grid.innerHTML = "";
 
       if (!courses.length) {
         grid.innerHTML = `
@@ -156,33 +155,38 @@ const courseRun = async () => {
         return;
       }
 
-      courses.forEach((course) => {
-        grid.appendChild(createCourseCard(course));
-      });
-    }
-
-    function createCourseCard(course) {
-      const card = document.createElement("div");
-      card.className = "course-card";
-      card.innerHTML = `
-        <img class="course-card__image" src="${course.image}" alt="${course.course_name}" />
-        <div class="course-card__content">
-          <h3 class="course-card__title">${course.course_name}</h3>
-          <p class="course-card__description">${course.course_description}</p>
-          <div class="course-card__meta">
-            <span class="course-card__badge">${course.skill_level}</span>
-            <span class="course-card__badge">${course.number_of_lectures} Lectures</span>
+      // Build all HTML at once using a template string instead of appending individual elements
+      const coursesHTML = courses
+        .map((course) => `
+          <div class="course-card">
+            <img class="course-card__image" src="${course.image}" alt="${course.course_name}" />
+            <div class="course-card__content">
+              <h3 class="course-card__title">${course.course_name}</h3>
+              <p class="course-card__description">${course.course_description}</p>
+              <div class="course-card__meta">
+                <span class="course-card__badge">${course.skill_level}</span>
+                <span class="course-card__badge">${course.number_of_lectures} Lectures</span>
+              </div>
+              <button class="course-card__cta" data-course-id="${course.id}">View Course</button>
+            </div>
           </div>
-          <button class="course-card__cta" data-course-id="${course.id}">View Course</button>
-        </div>
-      `;
+        `)
+        .join("");
 
-      card.querySelector(".course-card__cta").addEventListener("click", () => {
-        console.log("Course clicked:", course);
-        window.location.href = `/course-detail?id=${encodeURIComponent(course.id)}`;
+      grid.innerHTML = coursesHTML;
+
+      // Use event delegation for course card clicks
+      grid.addEventListener("click", (e) => {
+        const button = e.target.closest(".course-card__cta");
+        if (button) {
+          const courseId = button.dataset.courseId;
+          const course = courses.find((c) => c.id == courseId);
+          if (course) {
+            console.log("Course clicked:", course);
+            window.location.href = `/course-detail?id=${encodeURIComponent(courseId)}`;
+          }
+        }
       });
-
-      return card;
     }
 
     init();

@@ -43,121 +43,124 @@
       <div class="stars__layer stars__layer--3"></div>
     </div>
 
-    <!-- Theme toggle button -->
-    <button
-      type="button"
-      class="theme-toggle"
-      id="themeToggle"
-      aria-label="Switch to dark mode"
-      aria-pressed="false"
-    >
-      <span class="theme-toggle__track" aria-hidden="true">
-        <span class="theme-toggle__thumb">
-          <svg
-            class="theme-toggle__sun"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="5" />
-            <line
-              x1="12"
-              y1="1"
-              x2="12"
-              y2="3"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="12"
-              y1="21"
-              x2="12"
-              y2="23"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="4.22"
-              y1="4.22"
-              x2="5.64"
-              y2="5.64"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="18.36"
-              y1="18.36"
-              x2="19.78"
-              y2="19.78"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="1"
-              y1="12"
-              x2="3"
-              y2="12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="21"
-              y1="12"
-              x2="23"
-              y2="12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="4.22"
-              y1="19.78"
-              x2="5.64"
-              y2="18.36"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="18.36"
-              y1="5.64"
-              x2="19.78"
-              y2="4.22"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-          <svg
-            class="theme-toggle__moon"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
+    <div class="control-cluster" id="headerControls">
+      <button
+        type="button"
+        class="theme-toggle"
+        id="themeToggle"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <span class="theme-toggle__track" aria-hidden="true">
+          <span class="theme-toggle__thumb">
+            <svg
+              class="theme-toggle__sun"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line
+                x1="12"
+                y1="1"
+                x2="12"
+                y2="3"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="12"
+                y1="21"
+                x2="12"
+                y2="23"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="4.22"
+                y1="4.22"
+                x2="5.64"
+                y2="5.64"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18.36"
+                y1="18.36"
+                x2="19.78"
+                y2="19.78"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="1"
+                y1="12"
+                x2="3"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="21"
+                y1="12"
+                x2="23"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="4.22"
+                y1="19.78"
+                x2="5.64"
+                y2="18.36"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18.36"
+                y1="5.64"
+                x2="19.78"
+                y2="4.22"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <svg
+              class="theme-toggle__moon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
         </span>
-      </span>
-      <span class="theme-toggle__label">Light</span>
-    </button>
+        <span class="theme-toggle__label">Light</span>
+      </button>
+
+      <button type="button" class="language-toggle" id="langToggle" aria-label="Switch language to Arabic" aria-pressed="false">EN</button>
+    </div>
 
     <!-- Navigation -->
     <header class="site-nav profile-topbar">
       <div class="container profile-topbar__inner site-nav__inner">
         <a href="/" class="profile-topbar__brand site-nav__brand">Smart Antenna</a>
         <nav class="profile-topbar__links site-nav__links" aria-label="Primary navigation">
-          <a href="/courses" class="btn btn--sm">Courses</a>
+          <a href="/courses" class="btn btn--sm" data-i18n="nav.courses">Courses</a>
           <% if(user) { %>
-            <a href="/profile" class="btn btn--sm">Profile</a>
-            <a href="/logout" class="btn btn--sm btn--login">Logout</a>
+            <a href="/profile" class="btn btn--sm" data-i18n="nav.profile">Profile</a>
+            <a href="/logout" class="btn btn--sm btn--login" data-i18n="nav.logout">Logout</a>
           <% } else { %>
-            <a href="/profile" class="btn btn--sm">Profile</a>
-            <a href="/login" class="btn btn--sm btn--login">Login</a>
+            <a href="/profile" class="btn btn--sm" data-i18n="nav.profile">Profile</a>
+            <a href="/login" class="btn btn--sm btn--login" data-i18n="nav.login">Login</a>
           <% } %>
         </nav>
       </div>
@@ -178,9 +181,9 @@
           <div class="container course-hero__container">
             <div class="course-hero__content">
               <p id="course-category" class="course-hero__description"></p>
-              <h1 id="course-title" class="course-hero__title">Loading course…</h1>
+              <h1 id="course-title" class="course-hero__title" data-i18n="detail.loadingCourse">Loading course…</h1>
               <div class="course-hero__cta-group">
-                <button id="enroll-now" class="btn btn--primary">
+                <button id="enroll-now" class="btn btn--primary" data-i18n="detail.enrollNow">
                   Enroll Now
                 </button>
               </div>
@@ -200,7 +203,7 @@
         <section class="course-about">
           <div class="container course-about__container">
             <div class="course-about__content">
-              <h2 class="course-about__heading">About this Course</h2>
+              <h2 class="course-about__heading" data-i18n="detail.aboutCourse">About this Course</h2>
               <p id="course-description" class="course-about__paragraph"></p>
             </div>
 
@@ -219,7 +222,7 @@
                   <path d="M12 6v6m0 4v2"></path>
                 </svg>
                 <div class="course-info-card__text">
-                  <span class="course-info-card__label">Lectures</span>
+                  <span class="course-info-card__label" data-i18n="detail.lectures">Lectures</span>
                   <span id="course-lecture-count" class="course-info-card__value">—</span>
                 </div>
               </div>
@@ -237,7 +240,7 @@
                   <path d="M12 6v6l4 2"></path>
                 </svg>
                 <div class="course-info-card__text">
-                  <span class="course-info-card__label">Level</span>
+                  <span class="course-info-card__label" data-i18n="detail.level">Level</span>
                   <span id="course-skill-level" class="course-info-card__value">—</span>
                 </div>
               </div>
@@ -255,12 +258,12 @@
                   <line x1="22" y1="4" x2="12" y2="14.01"></line>
                 </svg>
                 <div class="course-info-card__text">
-                  <span class="course-info-card__label">Category</span>
+                  <span class="course-info-card__label" data-i18n="detail.category">Category</span>
                   <span id="course-category-info" class="course-info-card__value">—</span>
                 </div>
               </div>
 
-              <button id="enroll-for" class="btn btn--accent course-info-card__enroll">
+              <button id="enroll-for" class="btn btn--accent course-info-card__enroll" data-i18n="detail.enrollFee">
                 Enroll for $199
               </button>
             </aside>
@@ -270,7 +273,7 @@
         <!-- 3. COURSE CURRICULUM -->
         <section class="course-curriculum">
           <div class="container">
-            <h2 class="section-heading">Course Curriculum</h2>
+            <h2 class="section-heading" data-i18n="detail.curriculum">Course Curriculum</h2>
             <div class="curriculum-accordion"></div>
           </div>
         </section>
@@ -281,7 +284,7 @@
             <div class="instructor-card">
               <div class="instructor-card__image"></div>
               <div class="instructor-card__content">
-                <h3 id="lecturer-name" class="instructor-card__name">Loading instructor…</h3>
+                <h3 id="lecturer-name" class="instructor-card__name" data-i18n="detail.loadingInstructor">Loading instructor…</h3>
                 <p id="lecturer-email" class="instructor-card__title"></p>
                 <p id="lecturer-bio" class="instructor-card__bio"></p>
               </div>
@@ -334,8 +337,8 @@
             </nav>
 
             <div class="site-footer__legal-links">
-              <a href="#" class="site-footer__link">Terms &amp; Conditions</a>
-              <a href="#" class="site-footer__link">Privacy Policy</a>
+              <a href="#" class="site-footer__link" data-i18n="index.terms">Terms &amp; Conditions</a>
+              <a href="#" class="site-footer__link" data-i18n="index.privacy">Privacy Policy</a>
             </div>
           </div>
 

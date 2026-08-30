@@ -4,7 +4,7 @@
   illustrations, controls, and all existing class names remain untouched.
 */
 
-
+/*
 
 :root {
   --color-bg: #f5f7fb;
@@ -36,14 +36,14 @@
   --shadow-card: 0 18px 35px rgba(0, 0, 0, 0.2);
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; }
 
 body,
 .page {
   background-color: var(--color-bg);
 }
 
-/* Replace the original soft circles with a restrained workspace grid. */
+/* Replace the original soft circles with a restrained workspace grid. 
 .bg-blur,
 .bg-gradient {
   display: none;
@@ -178,4 +178,6 @@ body,
   *, *::before, *::after { scroll-behavior: auto !important; }
 }
 
+
+*/
 

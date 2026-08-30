@@ -13,11 +13,11 @@
      floating independently over the page.
      ------------------------------------------------------- */
   (function placeThemeToggleInNavigation() {
-    var toggle = document.getElementById("themeToggle");
+    var controls = document.getElementById("headerControls");
     var navLinks = document.querySelector(".site-nav__links");
-    if (!toggle || !navLinks) return;
+    if (!controls || !navLinks) return;
 
-    navLinks.appendChild(toggle);
+    navLinks.appendChild(controls);
   })();
 
   var prefersReducedMotion = window.matchMedia(
@@ -294,5 +294,123 @@
         if (localStorage.getItem("theme")) return; // manual choice wins
       } catch (err) {}
       applyTheme(e.matches ? "dark" : "light");
+    });
+  })();
+
+  (function initLanguageToggle() {
+    var toggle = document.getElementById("langToggle");
+    if (!toggle) return;
+
+    var translations = {
+      nav: {
+        home: { en: "Home", ar: "الرئيسية" },
+        courses: { en: "Courses", ar: "الدورات" },
+        profile: { en: "Profile", ar: "الملف الشخصي" },
+        login: { en: "Login", ar: "تسجيل الدخول" },
+        logout: { en: "Logout", ar: "تسجيل الخروج" },
+        signup: { en: "Signup", ar: "إنشاء حساب" }
+      },
+      index: {
+        heroTitle: { en: "Learn Without Limits with Smart Antenna", ar: "تعلّم بلا حدود مع سمارتي أنتيـنا" },
+        welcome: { en: "Welcome", ar: "مرحباً" },
+        heroDescription: {
+          en: "Learn through expert-led courses across Computer Science, Medicine, Fine Arts, and beyond.",
+          ar: "تعلّم من خلال دورات بقيادة خبراء في علوم الحاسوب والطب والفنون الجميلة وغير ذلك."
+        },
+        viewProfile: { en: "View Profile", ar: "عرض الملف" },
+        coursesBtn: { en: "Courses", ar: "الدورات" },
+        signup: { en: "Signup", ar: "إنشاء حساب" },
+        login: { en: "Login", ar: "تسجيل الدخول" },
+        featureOneHeading: {
+          en: "Master software development, AI, cybersecurity, and data analytics with hands-on coding projects.",
+          ar: "إتقان تطوير البرمجيات والذكاء الاصطناعي والأمن السيبراني وتحليل البيانات من خلال مشاريع برمجية عملية."
+        },
+        featureOneBody: { en: "Tune into your full potential with Smart Antenna.", ar: "اكتشف إمكانياتك الكاملة مع سمارتي أنتيـنا." },
+        featureTwoHeading: {
+          en: "Build a strong foundation in human anatomy, clinical fundamentals, public health, and medical research.",
+          ar: "ابنِ أساساً قوياً في علم تشريح الإنسان والأساسيات السريرية والصحة العامة والبحث الطبي."
+        },
+        featureThreeHeading: {
+          en: "Explore hundreds of interactive courses and start building your future today.",
+          ar: "استكشف مئات الدورات التفاعلية وابدأ في بناء مستقبلك اليوم."
+        },
+        liveHeading: {
+          en: "Connect face-to-face with top instructors and peers through Smart Antenna’s integrated high-definition live lecture system.",
+          ar: "تواصل وجهاً لوجه مع أفضل المدربين والأقران من خلال نظام المحاضرات المباشرة عالي الوضوح المتكامل في سمارتي أنتيـنا."
+        },
+        terms: { en: "Terms & Conditions", ar: "الشروط والأحكام" },
+        privacy: { en: "Privacy Policy", ar: "سياسة الخصوصية" }
+      },
+      courses: {
+        heroTitle: { en: "Explore Our Courses", ar: "استكشف دوراتنا" },
+        heroDescription: {
+          en: "Learn from industry experts and advance your skills across diverse topics",
+          ar: "تعلّم من خبراء الصناعة وطور مهاراتك عبر موضوعات متنوعة"
+        },
+        category: { en: "Course Category", ar: "فئة الدورة" },
+        level: { en: "Skill Level", ar: "مستوى المهارة" },
+        lectures: { en: "Number of Lectures", ar: "عدد المحاضرات" },
+        advanced: { en: "Advanced", ar: "متقدم" },
+        intermediate: { en: "Intermediate", ar: "متوسط" },
+        beginner: { en: "Beginner", ar: "مبتدئ" },
+        lectures1_3: { en: "1-3 Lectures", ar: "1-3 محاضرات" },
+        lectures4_7: { en: "4-7 Lectures", ar: "4-7 محاضرات" },
+        lectures8_10: { en: "8-10 Lectures", ar: "8-10 محاضرات" }
+      },
+      profile: {
+        guest: {
+          en: "You need to sign in to view your profile.",
+          ar: "يجب عليك تسجيل الدخول لعرض ملفك الشخصي."
+        },
+        signIn: { en: "Go to Sign In", ar: "اذهب إلى تسجيل الدخول" },
+        backHome: { en: "Back to home", ar: "العودة إلى الرئيسية" },
+        userInfo: { en: "User information", ar: "معلومات المستخدم" },
+        signedIn: { en: "Signed in", ar: "مسجل الدخول" },
+        lastCourse: { en: "Last · Online course", ar: "آخر · دورة مباشرة" },
+        joinHistory: { en: "Join history", ar: "سجل الانضمام" },
+        logout: { en: "LOGOUT", ar: "تسجيل الخروج" }
+      }
+    };
+
+    function applyTranslations(lang) {
+      var language = lang === "ar" ? "ar" : "en";
+      document.querySelectorAll("[data-i18n]").forEach(function (el) {
+        var key = el.getAttribute("data-i18n");
+        var parts = key.split(".");
+        var value = translations;
+        for (var i = 0; i < parts.length; i++) {
+          if (!value || !Object.prototype.hasOwnProperty.call(value, parts[i])) {
+            value = null;
+            break;
+          }
+          value = value[parts[i]];
+        }
+        if (value && value[language]) {
+          el.textContent = value[language];
+        }
+      });
+    }
+
+    function applyLanguage(lang) {
+      var nextLang = lang === "ar" ? "ar" : "en";
+      document.documentElement.lang = nextLang;
+      document.documentElement.dir = nextLang === "ar" ? "rtl" : "ltr";
+      document.documentElement.dataset.lang = nextLang;
+      try { localStorage.setItem("language", nextLang); } catch (e) {}
+      toggle.textContent = nextLang === "ar" ? "AR" : "EN";
+      toggle.setAttribute("aria-label", nextLang === "ar" ? "Switch language to English" : "Switch language to Arabic");
+      toggle.setAttribute("aria-pressed", nextLang === "ar" ? "true" : "false");
+      toggle.classList.toggle("language-toggle--active", nextLang === "ar");
+      applyTranslations(nextLang);
+      document.dispatchEvent(new CustomEvent("languagechange", { detail: { language: nextLang } }));
+    }
+
+    var storedLanguage = null;
+    try { storedLanguage = localStorage.getItem("language"); } catch (e) {}
+    applyLanguage(storedLanguage || document.documentElement.dataset.lang || "en");
+
+    toggle.addEventListener("click", function () {
+      var current = document.documentElement.dataset.lang || "en";
+      applyLanguage(current === "ar" ? "en" : "ar");
     });
   })();

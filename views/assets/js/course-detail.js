@@ -9,6 +9,89 @@
   const courseID = url.searchParams.get("id");
   let lecturesData = [];
 
+  const detailTranslations = {
+    loadingCourse: { en: "Loading course…", ar: "جارٍ تحميل الدورة…" },
+    enrollNow: { en: "Enroll Now", ar: "اشترك الآن" },
+    aboutCourse: { en: "About this Course", ar: "حول هذه الدورة" },
+    lectures: { en: "Lectures", ar: "المحاضرات" },
+    level: { en: "Level", ar: "المستوى" },
+    category: { en: "Category", ar: "الفئة" },
+    enrollFee: { en: "Enroll for $199", ar: "اشترك بسعر 199 دولار" },
+    curriculum: { en: "Course Curriculum", ar: "منهج الدورة" },
+    loadingInstructor: { en: "Loading instructor…", ar: "جارٍ تحميل المدرب…" },
+    courseNotFound: { en: "Course not found", ar: "لم يتم العثور على الدورة" },
+    descriptionUnavailable: { en: "No description available.", ar: "لا يوجد وصف متاح." },
+    courseError: {
+      en: "We could not load this course. Please return to the courses page and try again.",
+      ar: "تعذّر تحميل هذه الدورة. يرجى العودة إلى صفحة الدورات والمحاولة مرة أخرى."
+    },
+    lectureCount: { en: "Lectures", ar: "محاضرات" },
+    joinMeeting: { en: "Join Meeting", ar: "انضم إلى الاجتماع" },
+    hideMeeting: { en: "Hide Meeting", ar: "إخفاء الاجتماع" },
+    openMeeting: { en: "Open meeting in a new tab", ar: "فتح الاجتماع في علامة تبويب جديدة" },
+    lectureSlides: { en: "Lecture Slides (PDF)", ar: "شرائح المحاضرة (PDF)" },
+    noLectures: { en: "No lectures are available for this course yet.", ar: "لا توجد محاضرات متاحة لهذه الدورة بعد." },
+    noResources: { en: "No resources available yet", ar: "لا توجد موارد متاحة بعد" },
+    lectureFallback: { en: "No resources available yet", ar: "لا توجد موارد متاحة بعد" }
+  };
+
+  function getCurrentLanguage() {
+    return document.documentElement.dataset.lang === "ar" ? "ar" : "en";
+  }
+
+  function translateText(key) {
+    var language = getCurrentLanguage();
+    return detailTranslations[key] && detailTranslations[key][language] ? detailTranslations[key][language] : key;
+  }
+
+  function updateDetailTranslations() {
+    var language = getCurrentLanguage();
+    document.querySelectorAll("[data-i18n]").forEach(function (node) {
+      var key = node.getAttribute("data-i18n");
+      if (!detailTranslations[key]) return;
+      node.textContent = detailTranslations[key][language] || node.textContent;
+    });
+
+    var title = document.getElementById("course-title");
+    if (title && title.textContent === "Loading course…" || title && title.textContent === "جارٍ تحميل الدورة…") {
+      title.textContent = translateText("loadingCourse");
+    }
+
+    var enrollNow = document.getElementById("enroll-now");
+    if (enrollNow) {
+      enrollNow.textContent = translateText("enrollNow");
+    }
+
+    var enrollFor = document.getElementById("enroll-for");
+    if (enrollFor) {
+      enrollFor.textContent = translateText("enrollFee");
+    }
+
+    document.querySelectorAll(".lecture-meeting__button").forEach(function (button) {
+      var current = button.textContent.trim();
+      if (current === "Join Meeting" || current === "انضم إلى الاجتماع") {
+        button.textContent = translateText("joinMeeting");
+      } else if (current === "Hide Meeting" || current === "إخفاء الاجتماع") {
+        button.textContent = translateText("hideMeeting");
+      }
+    });
+
+    document.querySelectorAll(".lecture-meeting__fallback").forEach(function (fallback) {
+      fallback.textContent = translateText("openMeeting");
+    });
+
+    document.querySelectorAll(".lesson-item__text").forEach(function (item) {
+      var text = item.textContent.trim();
+      if (text === "Lecture Slides (PDF)" || text === "شرائح المحاضرة (PDF)") {
+        item.textContent = translateText("lectureSlides");
+      } else if (text === "No resources available yet" || text === "لا توجد موارد متاحة بعد") {
+        item.textContent = translateText("noResources");
+      }
+    });
+  }
+
+  document.addEventListener("languagechange", updateDetailTranslations);
+
   // =========================================================
   // INITIALIZATION
   // =========================================================
@@ -45,11 +128,11 @@
       populateCourseDetails(course);
       await loadLectures();
       renderPage();
+      updateDetailTranslations();
     } catch (error) {
       console.error("Error fetching course data:", error);
-      title.textContent = "Course not found";
-      document.getElementById("course-description").textContent =
-        "We could not load this course. Please return to the courses page and try again.";
+      title.textContent = translateText("courseNotFound");
+      document.getElementById("course-description").textContent = translateText("courseError");
     }
   }
 
@@ -77,8 +160,8 @@
     document.title = `${course.course_name} — Smart Antenna`;
     document.getElementById("course-title").textContent = course.course_name;
     document.getElementById("course-category").textContent = course.category_name || "";
-    document.getElementById("course-description").textContent = course.course_description || "No description available.";
-    document.getElementById("course-lecture-count").textContent = `${course.number_of_lectures || 0} Lectures`;
+    document.getElementById("course-description").textContent = course.course_description || translateText("descriptionUnavailable");
+    document.getElementById("course-lecture-count").textContent = `${course.number_of_lectures || 0} ${translateText("lectureCount")}`;
     document.getElementById("course-skill-level").textContent = course.skill_level || "—";
     document.getElementById("course-category-info").textContent = course.category_name || "—";
     document.getElementById("lecturer-name").textContent = lecturerName;
@@ -109,7 +192,7 @@
     if (!container) return;
 
     if (!lecturesData.length) {
-      container.innerHTML = '<p class="course-about__paragraph">No lectures are available for this course yet.</p>';
+      container.innerHTML = '<p class="course-about__paragraph">' + translateText("noLectures") + '</p>';
       return;
     }
 
@@ -159,7 +242,7 @@
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
           </svg>
-          <span class="lesson-item__text">Lecture Slides (PDF)</span>
+          <span class="lesson-item__text">${translateText("lectureSlides")}</span>
         </a>
       `;
     }
@@ -177,7 +260,7 @@
             data-meeting-url="${escapeHtml(meetingUrl)}"
             data-lecture-number="${lecture.lecture_number}"
           >
-            Join Meeting
+            ${translateText("joinMeeting")}
           </button>
           <div class="lecture-meeting__embed" hidden></div>
         </div>
@@ -189,7 +272,7 @@
     if (!lecture.pdf_file && !lecture.meeting_link && !lecture.lecture_description) {
       items += `
         <div class="lesson-item" style="cursor: default; opacity: 0.6;">
-          <span class="lesson-item__text">No resources available yet</span>
+          <span class="lesson-item__text">${translateText("noResources")}</span>
         </div>
       `;
     }
@@ -233,14 +316,14 @@
           fallback.href = button.dataset.meetingUrl;
           fallback.target = "_blank";
           fallback.rel = "noopener noreferrer";
-          fallback.textContent = "Open meeting in a new tab";
+          fallback.textContent = translateText("openMeeting");
 
           embed.append(frame, fallback);
           embed.dataset.loaded = "true";
         }
 
         embed.hidden = !embed.hidden;
-        button.textContent = embed.hidden ? "Join Meeting" : "Hide Meeting";
+        button.textContent = embed.hidden ? translateText("joinMeeting") : translateText("hideMeeting");
 
         requestAnimationFrame(() => {
           const content = button.closest(".accordion-content");

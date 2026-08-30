@@ -49,111 +49,114 @@
       <div class="stars__layer stars__layer--3"></div>
     </div>
 
-    <!-- Theme toggle — always visible, highest z-index -->
-    <button
-      type="button"
-      class="theme-toggle"
-      id="themeToggle"
-      aria-label="Switch to dark mode"
-      aria-pressed="false"
-    >
-      <span class="theme-toggle__track" aria-hidden="true">
-        <span class="theme-toggle__thumb">
-          <!-- Sun icon -->
-          <svg
-            class="theme-toggle__sun"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="5" />
-            <line
-              x1="12"
-              y1="1"
-              x2="12"
-              y2="3"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="12"
-              y1="21"
-              x2="12"
-              y2="23"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="4.22"
-              y1="4.22"
-              x2="5.64"
-              y2="5.64"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="18.36"
-              y1="18.36"
-              x2="19.78"
-              y2="19.78"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="1"
-              y1="12"
-              x2="3"
-              y2="12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="21"
-              y1="12"
-              x2="23"
-              y2="12"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="4.22"
-              y1="19.78"
-              x2="5.64"
-              y2="18.36"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-            <line
-              x1="18.36"
-              y1="5.64"
-              x2="19.78"
-              y2="4.22"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            />
-          </svg>
-          <!-- Moon icon -->
-          <svg
-            class="theme-toggle__moon"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
+    <!-- Theme + language controls -->
+    <div class="control-cluster" id="headerControls">
+      <button
+        type="button"
+        class="theme-toggle"
+        id="themeToggle"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <span class="theme-toggle__track" aria-hidden="true">
+          <span class="theme-toggle__thumb">
+            <!-- Sun icon -->
+            <svg
+              class="theme-toggle__sun"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line
+                x1="12"
+                y1="1"
+                x2="12"
+                y2="3"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="12"
+                y1="21"
+                x2="12"
+                y2="23"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="4.22"
+                y1="4.22"
+                x2="5.64"
+                y2="5.64"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18.36"
+                y1="18.36"
+                x2="19.78"
+                y2="19.78"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="1"
+                y1="12"
+                x2="3"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="21"
+                y1="12"
+                x2="23"
+                y2="12"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="4.22"
+                y1="19.78"
+                x2="5.64"
+                y2="18.36"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <line
+                x1="18.36"
+                y1="5.64"
+                x2="19.78"
+                y2="4.22"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+            <!-- Moon icon -->
+            <svg
+              class="theme-toggle__moon"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
         </span>
-      </span>
-      
-      <span class="theme-toggle__label">Light</span>
-    </button>
+        <span class="theme-toggle__label">Light</span>
+      </button>
+
+      <button type="button" class="language-toggle" id="langToggle" aria-label="Switch language to Arabic" aria-pressed="false">EN</button>
+    </div>
     
     <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
@@ -162,13 +165,13 @@
         <a href="/" class="profile-topbar__brand site-nav__brand">Smart Antenna</a>
         <nav class="profile-topbar__links site-nav__links" aria-label="Primary navigation">
           <% if(user) { %>
-            <a href="/courses" class="btn btn--sm">Courses</a>
-            <a href="/profile" class="btn btn--sm">Profile</a>
-            <a href="/logout" class="btn btn--sm btn--login">Logout</a>
+            <a href="/courses" class="btn btn--sm" data-i18n="nav.courses">Courses</a>
+            <a href="/profile" class="btn btn--sm" data-i18n="nav.profile">Profile</a>
+            <a href="/logout" class="btn btn--sm btn--login" data-i18n="nav.logout">Logout</a>
           <% } else { %>
-            <a href="/courses" class="btn btn--sm">Courses</a>
-            <a href="/profile" class="btn btn--sm">Profile</a>
-            <a href="/login" class="btn btn--sm btn--login">Login</a>
+            <a href="/courses" class="btn btn--sm" data-i18n="nav.courses">Courses</a>
+            <a href="/profile" class="btn btn--sm" data-i18n="nav.profile">Profile</a>
+            <a href="/login" class="btn btn--sm btn--login" data-i18n="nav.login">Login</a>
           <% } %>
         </nav>
       </div>
@@ -190,22 +193,26 @@
       <header class="hero">
         <div class="container hero__container">
           <div class="hero__content">
-            <h1 class="hero__title">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
+            <h1 class="hero__title" data-i18n="index.heroTitle">
+             Learn Without Limits with Smart Antenna
             </h1>
             <% if(user) { %>
             <p class="hero__description">
-                Welcome, <%= user.username %>
+                <span data-i18n="index.welcome">Welcome</span> <%= user.username %>,
+                <span data-i18n="index.heroDescription">Learn through expert-led courses across Computer Science, Medicine, Fine Arts, and beyond.</span>
+            </p>
+            <% } else { %>
+            <p class="hero__description" data-i18n="index.heroDescription">
+              Learn through expert-led courses across Computer Science, Medicine, Fine Arts, and beyond.
             </p>
             <% } %>
             <div class="hero__cta-group">
               <% if(user) { %>
-              <a href="/profile" class="btn btn--signup">View Profile</a>
-              <a href="/courses" class="btn btn--courses">Courses</a>
+              <a href="/profile" class="btn btn--signup" data-i18n="index.viewProfile">View Profile</a>
+              <a href="/courses" class="btn btn--courses" data-i18n="index.coursesBtn">Courses</a>
               <% }else { %> 
-              <a href="/signup" class="btn btn--signup">Signup</a>
-              <a href="/login" class="btn btn--login">Login</a>
+              <a href="/signup" class="btn btn--signup" data-i18n="index.signup">Signup</a>
+              <a href="/login" class="btn btn--login" data-i18n="index.login">Login</a>
               <% } %>
             </div>
           </div>
@@ -214,19 +221,19 @@
             <div class="hero__visual-inner" id="heroVisualInner">
               <div class="media-frame hero__decoration--top">
                 <img
-                  src="/assets/images/content/hero-decoration-top.png"
+                  src="/assets/images/content/ART.jpg"
                   alt=""
                 />
               </div>
               <div class="media-frame hero__image">
                 <img
-                  src="/assets/images/content/hero-illustration.png"
+                  src="/assets/images/content/MEDICAL.jpg"
                   alt=""
                 />
               </div>
               <div class="media-frame hero__decoration--bottom">
                 <img
-                  src="/assets/images/content/hero-decoration-bottom.png"
+                  src="/assets/images/content/CS.jpg"
                   alt=""
                 />
               </div>
@@ -238,48 +245,43 @@
       <section class="feature-a reveal" aria-label="Feature highlight">
         <div class="container feature-a__container">
           <div class="media-frame feature-a__image">
-            <img src="/assets/images/content/feature-image-left.png" alt="" />
+            <img src="/assets/images/content/CS2.jpg" alt="" />
           </div>
           <div class="feature-a__content">
-            <h2 class="feature-a__heading-1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
+            <h2 class="feature-a__heading-1" data-i18n="index.featureOneHeading">
+              Master software development, AI, cybersecurity, and data analytics with hands-on coding projects.
             </h2>
-            <p class="feature-a__body">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
+            <p class="feature-a__body" data-i18n="index.featureOneBody">
+              Tune into your full potential with Smart Antenna.
             </p>
-            <h2 class="feature-a__heading-2">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-              vulputate libero
+            <h2 class="feature-a__heading-2" data-i18n="index.featureTwoHeading">
+             Build a strong foundation in human anatomy, clinical fundamentals, public health, and medical research.
             </h2>
           </div>
           <div class="media-frame feature-a__image">
-            <img src="/assets/images/content/feature-image-right.png" alt="" />
+            <img src="/assets/images/content/MEDICAL2.jpg" alt="" />
           </div>
         </div>
       </section>
 
       <section class="feature-b reveal" aria-label="Feature highlight">
         <div class="container feature-b__container">
-          <h2 class="feature-b__heading">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            vulputate libero
+          <h2 class="feature-b__heading" data-i18n="index.featureThreeHeading">
+          Explore hundreds of interactive courses and start building your future today.
           </h2>
           <div class="media-frame feature-b__image">
-            <img src="/assets/images/content/showcase-image.png" alt="" />
+            <img src="/assets/images/content/antenna.jpg" alt="" />
           </div>
         </div>
       </section>
 
       <section class="feature-c reveal" aria-label="Feature highlight">
         <div class="container feature-c__container">
-          <h2 class="feature-c__heading">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-            vulputate libero
+          <h2 class="feature-c__heading" data-i18n="index.liveHeading">
+           Connect face-to-face with top instructors and peers through Smart Antenna’s integrated high-definition live lecture system.
           </h2>
           <div class="media-frame feature-c__image">
-            <img src="/assets/images/content/banner-wide.png" alt="" />
+            <img src="/assets/images/content/meeting.jpg.avif" alt="" />
           </div>
         </div>
       </section>
@@ -327,8 +329,8 @@
             </nav>
 
             <div class="site-footer__legal-links">
-              <a href="#" class="site-footer__link">Terms &amp; Conditions</a>
-              <a href="#" class="site-footer__link">Privacy Policy</a>
+              <a href="#" class="site-footer__link" data-i18n="index.terms">Terms &amp; Conditions</a>
+              <a href="#" class="site-footer__link" data-i18n="index.privacy">Privacy Policy</a>
             </div>
           </div>
 

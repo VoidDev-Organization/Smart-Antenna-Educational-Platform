@@ -43,30 +43,34 @@
     <div class="stars__layer stars__layer--3"></div>
   </div>
 
-  <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" aria-pressed="false">
-    <span class="theme-toggle__track" aria-hidden="true">
-      <span class="theme-toggle__thumb">
-        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <circle cx="12" cy="12" r="5" />
-          <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" />
-          <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" />
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" />
-        </svg>
-        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-        </svg>
+  <div class="control-cluster" id="headerControls">
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" aria-pressed="false">
+      <span class="theme-toggle__track" aria-hidden="true">
+        <span class="theme-toggle__thumb">
+          <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" />
+            <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" />
+          </svg>
+          <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </span>
       </span>
-    </span>
-    <span class="theme-toggle__label">Light</span>
-  </button>
+      <span class="theme-toggle__label">Light</span>
+    </button>
+
+    <button type="button" class="language-toggle" id="langToggle" aria-label="Switch language to Arabic" aria-pressed="false">EN</button>
+  </div>
 
   <div class="page">
     <div class="background-decoration" aria-hidden="true">
@@ -79,8 +83,8 @@
       <div class="container courses-topbar__inner site-nav__inner">
         <a href="/" class="courses-topbar__brand site-nav__brand">Smart Antenna</a>
         <nav class="courses-topbar__links site-nav__links" aria-label="Primary navigation">
-          <a href="/" class="btn btn--sm">Home</a>
-          <a href="/courses" class="btn btn--sm ">Courses</a>
+          <a href="/" class="btn btn--sm" data-i18n="nav.home">Home</a>
+          <a href="/courses" class="btn btn--sm " data-i18n="nav.courses">Courses</a>
 
         </nav>
       </div>
@@ -90,15 +94,15 @@
       <div class="container">
         <!-- Shown only if nobody is signed in -->
         <div class="profile-guest" id="guestNotice" <%=user ? "hidden" : "" %>>
-          <p class="profile-guest__text">
+          <p class="profile-guest__text" data-i18n="profile.guest">
             You need to sign in to view your profile.
           </p>
-          <a class="btn btn--login" href="/login">Go to Sign In</a>
+          <a class="btn btn--login" href="/login" data-i18n="profile.signIn">Go to Sign In</a>
         </div>
 
         <!-- Signed-in dashboard -->
         <div id="profileContent" <%=user ? "" : "hidden" %>>
-          <a class="profile-back" href="/">
+          <a class="profile-back" href="/" data-i18n="profile.backHome">
             <img src="/assets/images/icons/ic-sharp-navigate-next.svg" alt="" />
             Back to home
           </a>
@@ -115,7 +119,7 @@
                   <input type="file" id="file-input" accept="image/*" style="display: none;">
                 </div>
                 <div class="profile-identity__body">
-                  <div class="profile-identity__eyebrow">
+                  <div class="profile-identity__eyebrow" data-i18n="profile.userInfo">
                     User information
                   </div>
                   <% if (user) { %>
@@ -125,7 +129,7 @@
                     <div class="profile-identity__email" id="userEmail">
                       <%= user.email %>
                     </div>
-                    <div class="profile-identity__joined" id="userJoined">
+                    <div class="profile-identity__joined" id="userJoined" data-i18n="profile.signedIn">
                       <%= "Signed in" %>
                     </div>
                     <% } %>
@@ -134,14 +138,14 @@
 
               <!-- Courses -->
               <section class="profile-card profile-card--large" id="courses" aria-label="Courses">
-                <h2 class="profile-courses__heading">Last · Online course</h2>
+                <h2 class="profile-courses__heading" data-i18n="profile.lastCourse">Last · Online course</h2>
 
                 <div class="course-row">
                   <div class="course-row__badge">98%</div>
                   <div class="course-row__body">
-                    <div class="course-row__title">Lorem ipsum dolor</div>
+                    <div class="course-row__title">Advanced Data Structures & Algorithms</div>
                     <div class="course-row__desc">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                     Master complex problem-solving techniques, graph algorithms, and dynamic programming.
                     </div>
                   </div>
                 </div>
@@ -149,9 +153,9 @@
                 <div class="course-row">
                   <div class="course-row__badge">50%</div>
                   <div class="course-row__body">
-                    <div class="course-row__title">Lorem ipsum dolor</div>
+                    <div class="course-row__title">Human Anatomy & Physiology Fundamentals</div>
                     <div class="course-row__desc">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Understand the structure and function of the human body at the cellular and organ level.
                     </div>
                   </div>
                 </div>
@@ -161,7 +165,7 @@
             <!-- Sidebar -->
             <aside class="profile__side">
               <section class="profile-card profile-card--small" aria-label="Recent activity">
-                <h2 class="profile-activity__heading">Join history
+                <h2 class="profile-activity__heading" data-i18n="profile.joinHistory">Join history
                 </h2>
                 <ul class="profile-activity__list" id="activityList">
                   <li class="profile-activity__empty">
@@ -171,7 +175,7 @@
               </section>
               <% } %>
 
-              <button type="button" class="btn btn--logout" id="logoutBtn" href="/logout">
+              <button type="button" class="btn btn--logout" id="logoutBtn" href="/logout" data-i18n="profile.logout">
                 LOGOUT
               </button>
             </aside>
