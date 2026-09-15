@@ -42,7 +42,7 @@ app.get("/profile", (req, res) => {
   return res.render("profile", { user: res.locals.user || null });
 });
 
-app.get("/categories", async (req, res) => {
+app.get("/categories", async (req, res) => {s
 
   try{
 
