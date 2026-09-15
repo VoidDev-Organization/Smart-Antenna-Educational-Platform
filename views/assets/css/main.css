@@ -1486,3 +1486,44 @@ body {
     transition: none;
   }
 }
+
+/* =========================================================
+   Dark-mode rendering budget
+   =========================================================
+   The dark palette originally combined animated full-screen star fields,
+   very large filtered blobs, and several translucent fixed surfaces. That
+   combination requires expensive repainting during scroll on many laptops
+   and phones. Keep the same palette and decoration, but use static,
+   composited-friendly layers in dark mode.
+   ========================================================= */
+:root[data-theme="dark"] {
+  /* Opaque surfaces mean the glass effect is not needed to preserve depth. */
+  --color-glass-bg: #0d1b2a;
+}
+
+:root[data-theme="dark"] .bg-blur {
+  /* These elements are up to 1,262px wide with a 350px blur radius. */
+  display: none;
+}
+
+:root[data-theme="dark"] .bg-gradient,
+:root[data-theme="dark"] .stars__layer {
+  animation: none;
+}
+
+/* Disable backdrop sampling only for dark mode. The opaque surfaces above
+   retain the same contrast while avoiding continuous repaint work on scroll. */
+:root[data-theme="dark"] .site-nav,
+:root[data-theme="dark"] .sticky-bar,
+:root[data-theme="dark"] .site-footer,
+:root[data-theme="dark"] .theme-toggle,
+:root[data-theme="dark"] .profile-topbar,
+:root[data-theme="dark"] .profile-card,
+:root[data-theme="dark"] .auth__card,
+:root[data-theme="dark"] .course-hero__image,
+:root[data-theme="dark"] .course-info-card,
+:root[data-theme="dark"] .accordion-module,
+:root[data-theme="dark"] .instructor-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
