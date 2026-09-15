@@ -21,10 +21,12 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+/*
 const server = app.listen(8000, () => {
   console.log("Listening to port 8000");
 });
-
+*/
 app.use(checkUser);
 app.get("/", (req, res) => {
   res.render("index");
@@ -243,3 +245,6 @@ app.post("/pfpimg", async (req, res) => {
     }
 
 });
+
+
+module.exports = app;
