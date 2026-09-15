@@ -1,8 +1,5 @@
 const express = require("express");
-const morgan = require("morgan");
-const FormData = require("form-data");
 const path = require("path");
-const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { checkUser } = require("./middleware/authMiddleware");
@@ -27,6 +24,7 @@ const server = app.listen(8000, () => {
   console.log("Listening to port 8000");
 });
 */
+
 app.use(checkUser);
 app.get("/", (req, res) => {
   res.render("index");
@@ -44,7 +42,7 @@ app.get("/profile", (req, res) => {
   return res.render("profile", { user: res.locals.user || null });
 });
 
-app.get("/categories", async (req, res) => {s
+app.get("/categories", async (req, res) => {
 
   try{
 
@@ -181,9 +179,8 @@ app.post("/signup", async (req, res) => {
 
     const data = await backendRes.json();
 
-    res.json(data);
 
-    return res.status(200).json({ message: "Signup successful" });
+    return res.status(200).json(data);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ Error: error.message || "Signup failed" });
